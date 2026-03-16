@@ -1,0 +1,191 @@
+/*
+  Notion 风格双主题 CSS 变量库
+  这是全项目的颜色宪法，所有组件必须引用这些变量
+*/
+
+/* ===== 亮色模式（白天） ===== */
+:root {
+  /* 背景色 */
+  --bg-layout: #f7f6f3;
+  --bg-container: #ffffff;
+  --bg-hover: #f1f1ef;
+  --bg-active: #e3e2de;
+
+  /* 文本色 */
+  --text-main: #37352f;
+  --text-secondary: rgba(55, 53, 47, 0.65);
+  --text-tertiary: rgba(55, 53, 47, 0.5);
+  --text-disabled: rgba(55, 53, 47, 0.25);
+
+  /* 边框色 */
+  --border-line: rgba(55, 53, 47, 0.09);
+  --border-strong: rgba(55, 53, 47, 0.16);
+  --border-focus: rgba(55, 53, 47, 0.3);
+
+  /* 主题色 */
+  --color-primary: #2383e2;
+  --color-primary-hover: #1a6dc0;
+  --color-success: #0f7b6c;
+  --color-warning: #d9730d;
+  --color-error: #e03e3e;
+  --color-info: #0b6cc4;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.1);
+  --shadow-md: 0 2px 8px rgba(15, 15, 15, 0.1);
+  --shadow-lg: 0 4px 16px rgba(15, 15, 15, 0.12);
+  --shadow-xl: 0 8px 32px rgba(15, 15, 15, 0.15);
+
+  /* 圆角 */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* 间距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 14px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* ===== 组件库兼容性变量（对应 packages/components/styles/variables.css）===== */
+  /* 基础组件级状态 */
+  --component-bg: #ffffff;
+  --component-border: rgba(55, 53, 47, 0.4);
+  --component-text: #37352f;
+  --component-hover-bg: rgba(55, 53, 47, 0.04);
+
+  /* 品牌与强调色系 */
+  --primary-color: #0f0f0f;
+  --primary-text-color: #ffffff;
+  --primary-hover: #2f2f2f;
+
+  /* 状态色系 */
+  --success-color: #0f7b6c;
+  --info-color: #1890ff;
+  --warning-color: #d9730d;
+  --error-color: #e03e3e;
+
+  /* 全局中性色 */
+  --text-color: #37352f;
+  --text-color-secondary: rgba(55, 53, 47, 0.65);
+  --border-color: rgba(55, 53, 47, 0.16);
+  --bg-color: #ffffff;
+
+  /* 圆角与间距（双主题通用） */
+  --border-radius-sm: 3px;
+  --border-radius-md: 4px;
+  --border-radius-lg: 6px;
+  --spacing-sm: 8px;
+  --spacing-md: 14px;
+  --spacing-lg: 24px;
+
+  /* 字体与阴影 */
+  --font-size-base: 14px;
+  --font-family-base: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --shadow-base: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  --shadow-float: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
+}
+
+/* ===== 暗黑模式（夜晚） ===== */
+html[data-theme='dark'] {
+  /* 背景色 */
+  --bg-layout: #191919;
+  --bg-container: #202020;
+  --bg-hover: #2c2c2c;
+  --bg-active: #363636;
+
+  /* 文本色 */
+  --text-main: rgba(255, 255, 255, 0.85);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-tertiary: rgba(255, 255, 255, 0.45);
+  --text-disabled: rgba(255, 255, 255, 0.25);
+
+  /* 边框色 */
+  --border-line: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --border-focus: rgba(255, 255, 255, 0.25);
+
+  /* 主题色（暗黑模式下稍微调整亮度） */
+  --color-primary: #4dabf7;
+  --color-primary-hover: #74c0fc;
+  --color-success: #20c997;
+  --color-warning: #ff922b;
+  --color-error: #ff6b6b;
+  --color-info: #339af0;
+
+  /* 阴影（暗黑模式下使用更硬的阴影） */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.6);
+
+  /* ===== 组件库兼容性变量（暗黑模式）===== */
+  /* 基础组件级状态 - 夜晚暗灰底淡灰边 */
+  --component-bg: #2f2f2f;
+  --component-border: rgba(255, 255, 255, 0.5);
+  --component-text: rgba(255, 255, 255, 0.85);
+  --component-hover-bg: rgba(255, 255, 255, 0.08);
+
+  /* 品牌与强调色系反转 */
+  --primary-color: #ffffff;
+  --primary-text-color: #0f0f0f;
+  --primary-hover: #e0e0e0;
+
+  /* 状态色系微调 */
+  --error-color: #ea7271;
+
+  /* 全局中性色反转 */
+  --text-color: rgba(255, 255, 255, 0.85);
+  --text-color-secondary: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(255, 255, 255, 0.2);
+  --bg-color: #191919;
+
+  /* 阴影变硬 */
+  --shadow-base: rgba(255, 255, 255, 0.13) 0px 0px 0px 1px;
+  --shadow-float: rgba(255, 255, 255, 0.13) 0px 0px 0px 1px, rgba(0, 0, 0, 0.5) 0px 4px 12px;
+}
+
+/* ===== 全局基底样式 ===== */
+body {
+  background-color: var(--bg-layout);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ===== 滚动条样式 ===== */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-md);
+  border: 3px solid var(--bg-layout);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-focus);
+}
+
+/* ===== 选中文本样式 ===== */
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* ===== 暗黑模式下的优化 ===== */
+html[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border: 3px solid var(--bg-layout);
+}
+
+html[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

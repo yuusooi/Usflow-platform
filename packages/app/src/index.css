@@ -66,3 +66,40 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* placeholder 颜色 */
+input::placeholder,
+textarea::placeholder {
+  color: #bfbfbf !important;
+  opacity: 1;
+}
+
+/* Ant Design 的 placeholder */
+.ant-input::placeholder,
+.ant-input-number::placeholder,
+.ant-select-selection-placeholder {
+  color: #bfbfbf !important;
+}
+
+/* 导入组件库的 CSS 变量 */
+@import '../../components/src/styles/variables.css';
+
+/* 导入 Tag 组件样式 */
+@import '../../components/src/Tag/style.css';
+
+/* 导入 Button 组件样式 */
+@import '../../components/src/Button/index.css';
+
+/* 导入 Space 组件样式 */
+@import '../../components/src/Space/index.css';

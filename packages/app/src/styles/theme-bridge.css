@@ -1,0 +1,30 @@
+/**
+ * 主题桥接 CSS
+ *
+ * 架构高光：强制让组件库的核心变量，实时读取 Antd 广播出来的变量。
+ * 如果离开了这个项目环境，它会 fallback 到原本的颜色，不破坏组件库自身的独立性！
+ */
+
+:root,
+html[data-theme='dark'] {
+  /* 品牌色 */
+  --primary-color: var(--ant-color-primary, #0f0f0f);
+
+  /* 背景色 */
+  --bg-color: var(--ant-color-bg-layout, #ffffff);
+  --component-bg: var(--ant-color-bg-container, #ffffff);
+
+  /* 文本色 */
+  --text-color: var(--ant-color-text, #37352f);
+  --component-text: var(--ant-color-text, #37352f);
+
+  /* 边框色 */
+  --border-color: var(--ant-color-border, rgba(55, 53, 47, 0.16));
+  --component-border: var(--ant-color-border, rgba(55, 53, 47, 0.16));
+
+  /* 状态色 */
+  --error-color: var(--ant-color-error, #e03e3e);
+  --success-color: var(--ant-color-success, #0f7b6c);
+  --info-color: var(--ant-color-info, #1890ff);
+  --warning-color: var(--ant-color-warning, #d9730d);
+}

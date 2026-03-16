@@ -4,7 +4,45 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>app</title>
+    <title>Usflow 系统</title>
+
+    <!-- FOUC 防护：在页面渲染前立即设置主题 -->
+    <script>
+      (function() {
+        try {
+          // 从 localStorage 读取主题设置
+          const themeStorage = localStorage.getItem('usflow-theme-storage');
+
+          if (themeStorage) {
+            // 解析存储的 JSON
+            const themeData = JSON.parse(themeStorage);
+
+            // 立即设置 data-theme 属性
+            if (themeData && themeData.state && themeData.state.mode) {
+              document.documentElement.setAttribute('data-theme', themeData.state.mode);
+            } else {
+              // 如果数据格式不对，使用默认值
+              document.documentElement.setAttribute('data-theme', 'light');
+            }
+          } else {
+            // 如果没有存储，使用默认值
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+
+          // 同时检测系统偏好（可选）
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+          // 如果用户没有设置过，可以跟随系统（这里注释掉，因为已经有默认值）
+          // if (!themeStorage && prefersDark) {
+          //   document.documentElement.setAttribute('data-theme', 'dark');
+          // }
+        } catch (error) {
+          // 如果出错，使用默认值
+          console.warn('Failed to load theme from localStorage:', error);
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -63,6 +63,24 @@ instance.interceptors.response.use(
     // 从Map里删除这个记录
     pendingMap.delete(requestKey);
 
+    // 检查 HTTP 状态码，如果是 400+，当作错误处理
+    if (response.status >= 400) {
+      // 500+ 触发服务降级
+      if (response.status >= 500) {
+        window.dispatchEvent(new CustomEvent('SERVICE_DOWN'));
+      }
+
+      // 抛出错误，让调用方 catch 到
+      return Promise.reject({
+        response,
+        message: `请求失败，状态码: ${response.status}`,
+      });
+    }
+
+    // 只有 200-299 才是真正的成功
+    // 服务恢复通知
+    window.dispatchEvent(new CustomEvent('SERVICE_UP'));
+
     // 把响应数据返回给调用方
     // 返回response，否则调用request.get()时拿不到数据
     return response;
@@ -140,15 +158,21 @@ instance.interceptors.response.use(
       }
     }
 
+    // 500+ 服务灾难级错误
+    if (response && response.status >= 500) {
+      window.dispatchEvent(new CustomEvent('SERVICE_DOWN'));
+    }
+
     // 判断是否是主动取消的请求
     if (axios.isCancel(error)) {
       // 如果是取消的请求，静默处理，不抛出错误
       // 这样控制台就不会显示红色的Uncaught Error
-      console.log('重复请求已被拦截');
       return Promise.reject({ isCanceled: true, message: error.message });
     }
 
-    // 其他真正的错误（404、500等），正常抛出
+    // 其他真正的错误（404等），正常抛出
     return Promise.reject(error);
   },
 );
+
+export { instance as request };

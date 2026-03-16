@@ -1,0 +1,26 @@
+@import './grid.responsive.css';
+
+.my-row {
+  /* 确保尺寸计算正确 */
+  box-sizing: border-box;
+}
+
+/* 清除默认样式 */
+.my-row::before,
+.my-row::after {
+  display: table;
+  content: '';
+  clear: both;
+}
+
+.my-col {
+  box-sizing: border-box;
+
+  /* flex相关样式 */
+  /* 不允许列缩小 */
+  flex-shrink: 0;
+  /* 防止内容溢出,超出部分隐藏 */
+  overflow: hidden;
+  /* 允许换行,防止溢出 */
+  word-break: break-word;
+}

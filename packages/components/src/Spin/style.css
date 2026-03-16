@@ -1,0 +1,137 @@
+/* ==========================================
+   Spin 加载中组件样式
+   使用 BEM 规范 + CSS 变量支持双主题
+   ========================================== */
+
+/* ==================== 旋转动画 ==================== */
+
+@keyframes my-spin-circle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==================== 独立模式容器 ==================== */
+
+.my-spin {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 8px;
+  font-size: 14px;
+}
+
+/* ==================== 旋转图标 ==================== */
+
+.my-spinner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.my-spinner-icon {
+  display: inline-block;
+  /* 默认尺寸 */
+  width: 16px;
+  height: 16px;
+  /* 应用旋转动画 */
+  animation: my-spin-circle 1s linear infinite;
+  /* SVG 样式 */
+  fill: none;
+  stroke: var(--text-color, rgba(55, 53, 47, 0.65));
+  stroke-width: 48; /* 描边宽度（加粗以增强视觉效果） */
+  stroke-dasharray: 60 383; /* 虚线效果：60px 实线，383px 间隔，实现缺口圆环 */
+  stroke-linecap: round; /* 圆角端点 */
+}
+
+/* 提示文字 */
+.my-spinner-tip {
+  margin-top: 8px;
+  color: var(--text-color, rgba(55, 53, 47, 0.65));
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+}
+
+/* ==================== 不同尺寸 ==================== */
+
+/* Small - 小号 */
+.my-spin-small .my-spinner-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.my-spin-small .my-spinner-tip {
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* Default - 默认（已在基础样式中定义） */
+
+/* Large - 大号 */
+.my-spin-large .my-spinner-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.my-spin-large .my-spinner-tip {
+  font-size: 16px;
+  margin-top: 12px;
+}
+
+/* ==================== 包裹模式容器 ==================== */
+
+.my-spin-nested-wrapper {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.my-spin-nested-content {
+  box-sizing: border-box;
+}
+
+/* ==================== 包裹模式遮罩层 ==================== */
+
+.my-spin-nested-loading {
+  position: absolute;
+  inset: 0; /* 相当于 top: 0; right: 0; bottom: 0; left: 0; */
+  z-index: 10; /* 确保覆盖在内容之上 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 遮罩层背景 */
+  /* 面试重点：为什么使用 var(--component-bg) + opacity？
+     答：确保在暗色模式下遮罩也能完美融合，不会出现突兀的白色/黑色遮罩 */
+  background-color: var(--component-bg, #ffffff);
+  opacity: 0.6;
+}
+
+/* 遮罩层内的 spinner 容器 */
+.my-spin-nested-loading .my-spinner {
+  position: relative;
+  z-index: 11; /* 比遮罩层更高一级，确保图标清晰可见 */
+}
+
+/* ==================== 暗色主题适配 ==================== */
+
+[data-theme='dark'] .my-spinner-icon {
+  stroke: var(--text-color, rgba(255, 255, 255, 0.65));
+}
+
+[data-theme='dark'] .my-spinner-tip {
+  color: var(--text-color, rgba(255, 255, 255, 0.65));
+}
+
+[data-theme='dark'] .my-spin-nested-loading {
+  background-color: var(--component-bg, #2f2f2f);
+  opacity: 0.7; /* 暗色模式下稍微提高透明度，增强遮罩效果 */
+}

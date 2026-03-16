@@ -1,0 +1,300 @@
+/* Input 组件样式 - 双主题 Design Tokens */
+
+/* 最外层容器 */
+.my-input-wrapper {
+  display: flex; /* flex布局 子元素横向排列*/
+  align-items: center; /* 垂直居中*/
+
+  /* 边框和圆角 - 基础组件使用 component-border */
+  border: 1px solid var(--component-border);
+  border-radius: var(--border-radius-md);
+
+  /* 内边距 */
+  padding: 0 12px;
+
+  /* 高度（默认尺寸） */
+  height: 32px;
+
+  /* 过渡动画（聚集时边框颜色变化） */
+  transition: all 0.2s;
+
+  box-shadow: 0 0 0 1px var(--component-border) inset;
+}
+
+/* 相邻 wrapper 左边不画边框 */
+.my-input-wrapper + .my-input-wrapper {
+  box-shadow: 0 0 0 1px var(--component-border) inset;
+  margin-left: -1px;
+}
+
+/* 当wrapper内部的任意子元素获得焦点时生效 */
+/* 虽然用户聚焦的是input，但边框变色的是wrapper */
+/* 实现 聚焦时外层容器变色 的效果 */
+.my-input-wrapper:focus-within {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(15, 15, 15, 0.1);
+}
+
+/* 实际input元素 */
+.my-input {
+  /* flex:1可以让input占满剩余空间 */
+  flex: 1;
+
+  /* 去掉默认样式 */
+  border: none;
+  outline: none;
+  background: transparent;
+
+  /* 字体 */
+  font-size: var(--font-size-base);
+  color: var(--component-text);
+
+  /* 去掉由wrapper控制的默认padding */
+  padding: 0;
+  margin: 0;
+}
+
+.my-input::placeholder {
+  color: var(--text-color-secondary);
+}
+
+/* 前缀和后缀图标 */
+.my-input-prefix,
+.my-input-suffix {
+  /* 使得flex不可压缩 */
+  flex-shrink: 0;
+
+  /* 图标和input之间的间距 */
+  margin: 0 var(--spacing-sm);
+
+  /* 图标垂直居中 */
+  display: flex;
+  align-items: center;
+
+  /* 图标颜色 - 使用次要文本颜色 */
+  color: var(--text-color-secondary);
+}
+
+/* 第一个子元素不需要左边距 */
+.my-input-wrapper > .my-input-prefix:first-child {
+  margin-left: 0;
+}
+
+/* 最后一个子元素不需要右边距 */
+.my-input-wrapper > .my-input-suffix:last-child {
+  margin-right: 0;
+}
+
+/* 状态样式 */
+.my-input-error {
+  border-color: var(--error-color) !important;
+}
+
+.my-input-disabled {
+  background-color: var(--component-hover-bg);
+  cursor: not-allowed;
+}
+
+.my-input-wrapper-error {
+  border-color: var(--error-color) !important;
+}
+
+.my-input-wrapper-error:focus-within {
+  border-color: var(--error-color) !important;
+  box-shadow: 0 0 0 2px rgba(224, 62, 62, 0.2) !important;
+}
+
+/* 尺寸变体 */
+.my-input-mini {
+  height: 20px;
+  font-size: 12px;
+}
+
+.my-input-small {
+  height: 24px;
+  font-size: 12px;
+}
+
+.my-input-large {
+  height: 40px;
+  font-size: 16px;
+}
+
+.my-input-clear-icon {
+  font-size: var(--font-size-base);
+  color: var(--text-color-secondary);
+  transition: color 0.2s;
+  padding: 0 4px;
+}
+
+.my-input-clear-icon:hover {
+  color: var(--component-text);
+}
+
+.my-input-password-toggle {
+  font-size: 16px;
+  color: var(--text-color-secondary);
+  transition: color 0.2s;
+  padding: 0 4px;
+}
+
+.my-input-password-toggle:hover {
+  color: var(--component-text);
+}
+
+.my-input-count {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+  margin-left: var(--spacing-sm);
+  white-space: nowrap;
+}
+
+.my-input-count.my-input-count-exceeded {
+  color: var(--error-color);
+}
+
+/* textArea容器 */
+.my-textarea-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* textArea本体 */
+.my-textarea {
+  width: 100%;
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--component-border);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  color: var(--component-text);
+  outline: none;
+  transition: all 0.2s;
+  font-family: inherit;
+  line-height: 1.5;
+  box-sizing: border-box;
+  background-color: var(--component-bg);
+}
+
+.my-textarea:hover {
+  border-color: var(--primary-color);
+}
+
+.my-textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(15, 15, 15, 0.1);
+}
+
+/* TextArea 状态 */
+.my-textarea-error {
+  border-color: var(--error-color);
+}
+
+.my-textarea-error:focus {
+  box-shadow: 0 0 0 2px rgba(224, 62, 62, 0.1);
+}
+
+.my-textarea-disabled {
+  background-color: var(--component-hover-bg);
+  cursor: not-allowed;
+  color: var(--text-color-secondary);
+}
+
+/* TextArea 尺寸 */
+.my-textarea-mini {
+  min-height: 20px;
+  font-size: 12px;
+  padding: 2px 8px;
+}
+
+.my-textarea-small {
+  min-height: 24px;
+  font-size: 12px;
+  padding: 3px 10px;
+}
+
+.my-textarea-large {
+  min-height: 40px;
+  font-size: 16px;
+  padding: 6px 14px;
+}
+
+/* TextArea 底部工具栏 */
+.my-textarea-footer {
+  display: flex;
+  align-items: center;
+  /* 内容靠右 */
+  justify-content: flex-end;
+  padding: 4px 12px;
+  border: 1px solid var(--component-border);
+  border-top: none;
+  border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
+  background-color: var(--component-hover-bg);
+}
+
+.my-textarea-clear-icon {
+  font-size: var(--font-size-base);
+  color: var(--text-color-secondary);
+  cursor: pointer;
+  padding: 0 4px;
+  margin-right: var(--spacing-sm);
+}
+
+.my-textarea-clear-icon:hover {
+  color: var(--component-text);
+}
+
+.my-textarea-count {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+}
+
+/* Input.Group */
+.my-input-group {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+/* Group 内的 Input 去掉圆角 */
+.my-input-group .my-input-wrapper {
+  border-radius: 0;
+}
+
+/* 第一个元素：左侧圆角 */
+.my-input-group .my-input-wrapper:first-child {
+  border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
+}
+
+/* 最后一个元素：右侧圆角 */
+.my-input-group .my-input-wrapper:last-child {
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+}
+
+/* 紧凑模式：去掉中间的边框 */
+.my-input-group-compact .my-input-wrapper:not(:first-child):not(:last-child) {
+  border-left: none;
+  border-right: none;
+}
+
+/* 紧凑模式：去掉第一个元素的右边框 */
+.my-input-group-compact .my-input-wrapper:first-child {
+  border-right: none;
+}
+
+/* 紧凑模式：去掉最后一个元素的左边框 */
+.my-input-group-compact .my-input-wrapper:last-child {
+  border-left: none;
+}
+
+/* 紧凑模式：Hover 时恢复边框 */
+.my-input-group-compact .my-input-wrapper:hover {
+  /* 提升层级,避免边框遮挡 */
+  z-index: 1;
+  border-color: var(--primary-color);
+}
+
+.my-input-group-compact .my-input-wrapper:focus-within {
+  z-index: 1;
+  border-color: var(--primary-color);
+}

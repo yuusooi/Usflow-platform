@@ -1,0 +1,212 @@
+/* ==========================================
+   Badge 徽标数组件样式
+   使用 BEM 规范 + CSS 变量支持双主题
+   ========================================== */
+
+/* 徽标包裹容器 */
+.my-badge-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* 徽标本体 - 淡红色背景，白色文字 */
+.my-badge-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  transform-origin: 100% 0;
+
+  /* 基础样式 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  min-width: 20px;
+  padding: 0 6px;
+
+  /* 字体 */
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+
+  /* 颜色 - 淡红色背景 + 白色文字 */
+  color: #fff;
+  background-color: #ff4d4f;
+  box-shadow: 0 0 0 1px #fff;
+
+  /* 动画 */
+  transition: all 0.2s ease;
+
+  /* z-index 确保在最上层 */
+  z-index: 1;
+}
+
+/* 个位数 - 正圆形 */
+.my-badge-count-single {
+  width: 20px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+/* 多位数 - 胶囊形状 */
+.my-badge-count-multiple {
+  border-radius: 10px;
+}
+
+/* 隐藏状态 */
+.my-badge-count.my-badge-hidden {
+  display: none;
+}
+
+/* 独立徽标（不包裹元素）- 取消绝对定位，正常显示 */
+.my-badge-count-standalone {
+  position: static !important;
+  transform: none !important;
+  display: inline-flex;
+}
+
+/* 小红点模式 */
+.my-badge-count.my-badge-dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  padding: 0;
+  background-color: #ff4d4f;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #fff;
+}
+
+/* ==========================================
+   独立状态徽标（不包裹元素）
+   ========================================== */
+.my-badge-status {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* 状态点 */
+.my-badge-status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--text-color-secondary, rgba(0, 0, 0, 0.45));
+  transition: background-color 0.2s ease;
+}
+
+/* 状态颜色 - 明确区分不同状态 */
+.my-badge-status-dot.my-badge-status-success {
+  background-color: #52c41a;
+}
+
+.my-badge-status-dot.my-badge-status-processing {
+  background-color: #1890ff;
+  position: relative;
+}
+
+.my-badge-status-dot.my-badge-status-error {
+  background-color: #ff4d4f;
+}
+
+.my-badge-status-dot.my-badge-status-warning {
+  background-color: #faad14;
+}
+
+.my-badge-status-dot.my-badge-status-default {
+  background-color: #d9d9d9;
+}
+
+/* 状态点 - 处理中（带脉冲动画） */
+.my-badge-status-dot {
+  position: relative;
+}
+
+.my-badge-status-dot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: inherit;
+  animation: my-badge-status-dot-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes my-badge-status-dot-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* 状态文字 */
+.my-badge-status-text {
+  margin-left: 8px;
+  font-size: 14px;
+  color: var(--text-color, rgba(0, 0, 0, 0.85));
+}
+
+/* ==========================================
+   徽标进入动画
+   ========================================== */
+@keyframes my-badge-zoom-in {
+  from {
+    transform: scale(0) translate(50%, -50%);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translate(50%, -50%);
+    opacity: 1;
+  }
+}
+
+.my-badge-count {
+  animation: my-badge-zoom-in 0.2s ease-out;
+}
+
+/* ==========================================
+   暗色主题适配
+   ========================================== */
+[data-theme='dark'] .my-badge-count {
+  /* 暗色模式下使用更亮的红色，边框改为暗色背景 */
+  background-color: #ff7875;
+  box-shadow: 0 0 0 1px var(--bg-color, #191919);
+}
+
+[data-theme='dark'] .my-badge-count.my-badge-dot {
+  background-color: #ff7875;
+  box-shadow: 0 0 0 1px var(--bg-color, #191919);
+}
+
+/* 暗色模式下状态徽标颜色微调 */
+[data-theme='dark'] .my-badge-status-dot.my-badge-status-success {
+  background-color: #73d13d;
+}
+
+[data-theme='dark'] .my-badge-status-dot.my-badge-status-processing {
+  background-color: #40a9ff;
+}
+
+[data-theme='dark'] .my-badge-status-dot.my-badge-status-error {
+  background-color: #ff7875;
+}
+
+[data-theme='dark'] .my-badge-status-dot.my-badge-status-warning {
+  background-color: #ffc53d;
+}
+
+[data-theme='dark'] .my-badge-status-dot.my-badge-status-default {
+  background-color: #595959;
+}
+
+[data-theme='dark'] .my-badge-status-text {
+  color: var(--text-color, rgba(255, 255, 255, 0.85));
+}

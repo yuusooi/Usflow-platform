@@ -1,0 +1,135 @@
+/* Divider 容器 */
+.my-divider {
+  /* 使用 Flexbox 布局，支持文字和线的对齐 */
+  display: flex;
+  /* 使用全局文本颜色 */
+  color: var(--text-color-secondary, rgba(55, 53, 47, 0.65));
+  /* 字体大小 */
+  font-size: var(--font-size-base, 14px);
+  /* 字体粗细 */
+  font-weight: 500;
+  /* 禁止用户选择文字 */
+  user-select: none;
+  /* 宽度为 100%（水平方向） */
+  width: 100%;
+  /* 最小宽度 */
+  min-width: 100%;
+  /* 内边距 */
+  padding: 0;
+  /* 外边距 */
+  margin: var(--spacing-md, 14px) 0;
+  /* 边框盒模型 */
+  box-sizing: border-box;
+}
+
+/* Divider - 垂直方向 */
+.my-divider-vertical {
+  /* 垂直方向时改为纵向布局 */
+  flex-direction: column;
+  /* 宽度自适应 */
+  width: auto;
+  /* 最小宽度复位 */
+  min-width: 1px;
+  /* 高度自适应 */
+  height: auto;
+  /* 上下边距变为左右边距 */
+  margin: 0 var(--spacing-md, 14px);
+  /* 使用内边距留出空间 */
+  padding: var(--spacing-md, 14px) 0;
+  /* 左边框作为分割线 */
+  border-left: 1px solid var(--border-color, rgba(55, 53, 47, 0.16));
+}
+
+/* Divider - 虚线样式 */
+.my-divider-dashed {
+  /* 背景设置为虚线（通过 border 实现） */
+  background: none;
+}
+
+/* Divider - 虚线实现（通过伪元素） */
+.my-divider-dashed.my-divider-horizontal::before,
+.my-divider-dashed.my-divider-horizontal::after {
+  /* 虚线样式 */
+  border-top-style: dashed !important;
+}
+
+/* Divider - 垂直方向虚线 */
+.my-divider-vertical.my-divider-dashed {
+  /* 虚线样式 */
+  border-left-style: dashed;
+}
+
+/* Divider - 水平方向 */
+.my-divider-horizontal {
+  /* 横向布局 */
+  flex-direction: row;
+  /* 垂直居中 */
+  align-items: center;
+}
+
+/* Divider - 水平方向的左右线条 */
+.my-divider-horizontal::before,
+.my-divider-horizontal::after {
+  /* 必须设置 content */
+  content: '';
+  /* 使用 flex: 1 平分剩余空间 */
+  flex: 1;
+  /* 上边框作为分割线 */
+  border-top: 1px solid var(--border-color, rgba(55, 53, 47, 0.16));
+  /* 过渡效果 */
+  transition: border-color 0.2s ease-in-out;
+}
+
+/* Divider - 水平方向有文字时，左侧线条 */
+.my-divider-horizontal.my-divider-with-text::before {
+  /* 右边距 */
+  margin-right: var(--spacing-md, 14px);
+}
+
+/* Divider - 水平方向有文字时，右侧线条 */
+.my-divider-horizontal.my-divider-with-text::after {
+  /* 左边距 */
+  margin-left: var(--spacing-md, 14px);
+}
+
+/* Divider - 水平方向文字靠左 */
+.my-divider-horizontal.my-divider-with-text-left::before {
+  /* 左侧线条宽度由 orientation-margin 决定，不额外加 margin */
+  flex: none;
+  width: var(--orientation-margin, 4%);
+  margin-right: 0;
+}
+
+.my-divider-horizontal.my-divider-with-text-left::after {
+  /* 右侧线条占满剩余空间 */
+  flex: 1;
+}
+
+/* Divider - 水平方向文字靠右 */
+.my-divider-horizontal.my-divider-with-text-right::before {
+  /* 左侧线条占满剩余空间 */
+  flex: 1;
+}
+
+.my-divider-horizontal.my-divider-with-text-right::after {
+  /* 右侧线条宽度由 orientation-margin 决定，不额外加 margin */
+  flex: none;
+  width: var(--orientation-margin, 4%);
+  margin-left: 0;
+}
+
+/* Divider - 文本内容 */
+.my-divider-text {
+  /* 内边距 */
+  padding: 0 var(--spacing-sm, 8px);
+  /* 白色背景，遮盖线条 */
+  background: var(--bg-color, #ffffff);
+  /* 防止文字换行 */
+  white-space: nowrap;
+}
+
+/* Divider - 垂直方向文本 */
+.my-divider-vertical .my-divider-text {
+  /* 垂直方向时文字需要特殊处理 */
+  padding: var(--spacing-sm, 8px) 0;
+}

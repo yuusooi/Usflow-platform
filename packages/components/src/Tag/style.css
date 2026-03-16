@@ -1,0 +1,123 @@
+/* ==========================================
+   Tag 标签组件样式
+   使用 BEM 规范 + CSS 变量支持双主题
+   ========================================== */
+@import '../styles/variables.css';
+/* Tag 容器 */
+.my-tag {
+  /* 布局 */
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+
+  /* 尺寸 */
+  height: 24px;
+  padding: 0 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+
+  /* 字体 */
+  font-size: 12px;
+  line-height: 22px;
+  white-space: nowrap;
+
+  /* 默认样式（无边框模式） */
+  background-color: var(--component-bg, #f0f0f0);
+  color: var(--text-color, rgba(0, 0, 0, 0.65));
+  border: 1px solid var(--border-color, #d9d9d9);
+  border-radius: 2px;
+
+  /* 交互 */
+  cursor: default;
+  transition: all 0.2s ease;
+
+  /* 防止用户选择 */
+  user-select: none;
+}
+
+/* Tag 内容 */
+.my-tag-content {
+  display: inline-block;
+}
+
+/* 可关闭的 Tag - 右侧留出关闭按钮的空间 */
+.my-tag-closable {
+  padding-right: 4px;
+}
+
+/* 关闭按钮 */
+.my-tag-close {
+  /* 布局 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 尺寸 */
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+
+  /* 字体 */
+  font-size: 10px;
+  line-height: 1;
+
+  /* 颜色 */
+  color: inherit;
+  opacity: 0.66;
+
+  /* 交互 */
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  /* Flex 布局确保图标居中 */
+  flex-shrink: 0;
+}
+
+/* 关闭按钮 Hover 状态 */
+.my-tag-close:hover {
+  opacity: 1;
+}
+
+.my-tag-close svg {
+  /* 确保图标尺寸正确 */
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================
+   暗色主题适配
+   ========================================== */
+[data-theme='dark'] .my-tag {
+  background-color: var(--component-bg, #2f2f2f);
+  color: var(--text-color, rgba(255, 255, 255, 0.85));
+  border-color: var(--border-color, rgba(255, 255, 255, 0.2));
+}
+
+/* ==========================================
+   Tag 进入/离开动画
+   ========================================== */
+@keyframes my-tag-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes my-tag-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.my-tag {
+  animation: my-tag-fade-in 0.2s ease-out;
+}

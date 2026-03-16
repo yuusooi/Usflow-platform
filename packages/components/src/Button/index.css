@@ -1,0 +1,115 @@
+/* Button 组件样式 - 双主题 Design Tokens */
+.my-btn {
+  /* 布局属性（让按钮内容排好） */
+  /* 按钮变flex容器，宽度根据内容自适应,不占满整行 */
+  display: inline-flex;
+  /* 图标和文字垂直居中对齐 */
+  align-items: center;
+  /* 内容水平居中 */
+  justify-content: center;
+  /* 图标和文字之间的间距 */
+  gap: var(--spacing-sm, 8px);
+
+  /* 尺寸属性（大小） */
+  height: 32px;
+  padding: 4px 15px;
+  font-size: var(--font-size-base, 14px);
+
+  /* 边框 - 基础组件使用 component-border */
+  border: 1px solid var(--component-border, rgba(55, 53, 47, 0.16));
+  /* 圆角 - 使用 design token */
+  border-radius: var(--border-radius-md, 4px);
+  /* 文字颜色 - 基础组件使用 component-text */
+  color: var(--component-text, #37352f);
+  /* 背景色 - 基础组件使用 component-bg */
+  background-color: var(--component-bg, #ffffff);
+
+  /* 交互属性 */
+  /* 鼠标悬停显示手型 */
+  cursor: pointer;
+  /* 所有属性变化时0.1秒 平滑过渡 */
+  transition: all 0.1s linear;
+  /* 防止双击选中文本 */
+  user-select: none;
+
+  /* 清除默认样式 */
+  /* 去掉点击时的蓝色聚焦框（浏览器默认行为） */
+  outline: none;
+  /* padding 和 border 包含在宽度内 */
+  box-sizing: border-box;
+}
+
+.my-btn:hover {
+  background-color: var(--component-hover-bg, rgba(55, 53, 47, 0.04));
+}
+
+/* Primary 按钮 - 品牌色 */
+.my-btn-primary {
+  background-color: var(--primary-color, #0f0f0f);
+  border-color: var(--primary-color, #0f0f0f);
+  color: var(--primary-text-color, #ffffff);
+}
+
+.my-btn-primary:hover {
+  background-color: var(--primary-hover, #2f2f2f);
+  border-color: var(--primary-hover, #2f2f2f);
+}
+
+.my-btn-primary:active {
+  /* 稍微加深一点（通过 opacity 实现） */
+  opacity: 0.9;
+}
+
+/* 尺寸变体 */
+.my-btn-size-mini {
+  height: 24px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.my-btn-size-small {
+  height: 28px;
+  padding: 4px 15px;
+  font-size: var(--font-size-base);
+}
+
+.my-btn-size-large {
+  height: 36px;
+  padding: 8px 20px;
+  font-size: 16px;
+}
+
+/* Loading 状态 */
+.my-btn-loading {
+  /* 鼠标悬停显示禁止符号 */
+  cursor: not-allowed;
+  /* 透明度降低到 65% */
+  opacity: 0.65;
+}
+
+.my-btn-loading-icon {
+  /* 让span有宽高（默认span是行内元素，没有宽高） */
+  display: inline-block;
+  /* 相对于父元素字体大小，按钮字体14px，图标就是14px */
+  width: 1em;
+  height: 1em;
+  /* 边框2px，颜色继承父元素文字颜色 */
+  border: 2px solid currentColor;
+  /* 上边框透明，形成缺口 */
+  border-top-color: transparent;
+  /* 变成圆形,看得出来在转动 */
+  border-radius: 50%;
+  /* 旋转动画,0.8s转一圈, 线性速度，无限循环*/
+  animation: my-btn-spin 0.8s linear infinite;
+}
+
+@keyframes my-btn-spin {
+  /* 初始状态0度 */
+  0% {
+    transform: rotate(0deg);
+  }
+  /* 结束状态：转一圈 */
+  100% {
+    transform: rotate(360deg);
+  }
+}

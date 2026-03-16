@@ -1,0 +1,144 @@
+/* Card 容器 */
+.my-card {
+  /* 使用组件级背景色变量，支持双主题 */
+  background-color: var(--component-bg, #ffffff);
+  /* 使用全局边框颜色 */
+  border: 1px solid var(--border-color, rgba(55, 53, 47, 0.16));
+  /* 使用组件级文本颜色 */
+  color: var(--component-text, #37352f);
+  /* 使用基础阴影 */
+  box-shadow: var(--shadow-base,
+    rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
+    rgba(15, 15, 15, 0.1) 0px 2px 4px
+  );
+  /* 使用大圆角变量 */
+  border-radius: var(--border-radius-lg, 6px);
+  /* 使用大间距变量作为内边距 */
+  padding: var(--spacing-lg, 24px);
+  /* 过渡效果 */
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  /* 默认为块级元素 */
+  display: block;
+}
+
+/* 无边框模式 */
+.my-card-bordered {
+  border: none;
+}
+
+/* 可悬停模式 */
+.my-card-hoverable {
+  cursor: pointer;
+}
+
+.my-card-hoverable:hover {
+  /* 悬停时使用浮起阴影 */
+  box-shadow: var(--shadow-float,
+    rgba(15, 15, 15, 0.05) 0px 0px 0px 1px,
+    rgba(15, 15, 15, 0.1) 0px 3px 6px,
+    rgba(15, 15, 15, 0.2) 0px 9px 24px
+  );
+  /* 轻微上移效果 */
+  transform: translateY(-2px);
+}
+
+/* 阴影级别：无阴影 */
+.my-card-shadow-none {
+  box-shadow: none;
+}
+
+/* 阴影级别：基础阴影（默认） */
+.my-card-shadow-base {
+  box-shadow: var(--shadow-base,
+    rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
+    rgba(15, 15, 15, 0.1) 0px 2px 4px
+  );
+}
+
+/* 阴影级别：浮起阴影 */
+.my-card-shadow-float {
+  box-shadow: var(--shadow-float,
+    rgba(15, 15, 15, 0.05) 0px 0px 0px 1px,
+    rgba(15, 15, 15, 0.1) 0px 3px 6px,
+    rgba(15, 15, 15, 0.2) 0px 9px 24px
+  );
+}
+
+/* Card 头部区域 */
+.my-card-head {
+  /* 头部下边距使用中间距 */
+  margin-bottom: var(--spacing-md, 14px);
+  /* 使用 Flexbox 布局，实现标题和 extra 的左右分布 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm, 8px);
+}
+
+/* 标题样式 */
+.my-card-head-title {
+  /* 字体大小 */
+  font-size: 16px;
+  /* 字体粗细 */
+  font-weight: 600;
+  /* 使用全局文本颜色 */
+  color: var(--text-color, #37352f);
+  /* 无边距 */
+  margin: 0;
+  /* 单行溢出省略 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Extra 区域样式 */
+.my-card-head-extra {
+  /* 使用次要文本颜色 */
+  color: var(--text-color-secondary, rgba(55, 53, 47, 0.65));
+  /* Flexbox 右对齐 */
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm, 8px);
+  font-size: 14px;
+}
+
+/* Card 内容区域 */
+.my-card-body {
+  /* 使用全局文本颜色 */
+  color: var(--text-color, #37352f);
+  /* 字体大小 */
+  font-size: var(--font-size-base, 14px);
+  /* 行高 */
+  line-height: 1.6;
+  /* 无边距（已有 padding） */
+  margin: 0;
+}
+
+/* Card 内容为空时不显示 */
+.my-card-body:empty {
+  display: none;
+}
+
+/* 暗黑模式下的额外优化 */
+html[data-theme='dark'] .my-card,
+body[data-theme='dark'] .my-card,
+html.dark .my-card,
+body.dark .my-card,
+.dark .my-card {
+  /* 暗黑模式下的边框 */
+  border-color: var(--border-color, rgba(255, 255, 255, 0.2));
+}
+
+/* 暗黑模式下的悬停效果 */
+html[data-theme='dark'] .my-card-hoverable:hover,
+body[data-theme='dark'] .my-card-hoverable:hover,
+html.dark .my-card-hoverable:hover,
+body.dark .my-card-hoverable:hover,
+.dark .my-card-hoverable:hover {
+  /* 暗黑模式下使用更硬的阴影 */
+  box-shadow: var(--shadow-float,
+    rgba(255, 255, 255, 0.13) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.5) 0px 4px 12px
+  );
+}

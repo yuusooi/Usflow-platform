@@ -1,0 +1,280 @@
+/* Modal 组件样式 - 双主题 Design Tokens */
+
+/* 遮罩层 - 保持固定颜色 */
+.my-modal-mask {
+  /* 固定定位，覆盖整个视口(浏览器窗口) */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  /* 层级：确保在其他元素之上 */
+  z-index: 1000;
+
+  /* 半透明黑色背景 - 固定值，不随主题变化 */
+  background-color: rgba(0, 0, 0, 0.45);
+
+  /* 动画：淡入效果 */
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+/* 弹窗定位层 */
+.my-modal-root {
+  /* 固定定位，覆盖整个视口 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  /* 层级：比遮罩层高，确保弹窗在遮罩之上 */
+  z-index: 1000;
+
+  /* Flexbox 居中弹窗 */
+  display: flex;
+  align-items: center;
+  /* 垂直居中 */
+  justify-content: center;
+  /* 水平居中 */
+
+  /* 溢出处理：允许弹窗超出视口时滚动 */
+  overflow: auto;
+
+  /* 内边距：确保小屏幕下弹窗不贴边 */
+  padding: 20px;
+
+  /* 鼠标样式：提示用户可以点击 */
+  cursor: pointer;
+}
+
+/* 弹窗本体 - 核心内容区域 */
+.my-modal {
+  /* 定位：相对定位，为子元素的绝对定位提供参照 */
+  /* 关闭按钮可能需要绝对定位到右上角 */
+  position: relative;
+
+  /* 弹性布局，让内容从上到下排列 */
+  display: flex;
+  /* 让子元素从上到下排列,如果不设置，则默认值是row从左到右 */
+  flex-direction: column;
+
+  /* 背景和边框 - 使用 bg-color（不是 component-bg） */
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius-lg);
+  /* 阴影 - 使用 design token */
+  box-shadow: var(--shadow-float);
+
+  /* 动画：缩放效果 */
+  animation: modalZoomIn 0.3s ease-out;
+
+  /* 弹窗内容区域保持默认鼠标样式 */
+  cursor: default;
+}
+
+/* 头部 */
+.my-modal-header {
+  /* 弹性布局：标题和关闭按钮左右排列 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* 内边距 */
+  padding: 16px 24px;
+
+  /* 边框底部 */
+  border-bottom: 1px solid var(--border-color);
+
+  /* 只让上面两个角有圆角 */
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+/* 标题 */
+.my-modal-title {
+  /* 字体样式 */
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--component-text);
+
+  /* 防止文字换行 */
+  white-space: nowrap;
+
+  /* 文字溢出处理 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 关闭按钮 */
+.my-modal-close {
+  /* 重置默认样式 */
+  border: none;
+  background: transparent;
+  padding: 0;
+
+  /* 光标样式 */
+  cursor: pointer;
+
+  /* 字体大小 */
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+
+  /* 颜色 - 使用次要文本颜色 */
+  color: var(--text-color-secondary);
+
+  /* 过渡动画 */
+  transition: color 0.2s;
+}
+
+/* 关闭按钮悬停 */
+.my-modal-close:hover {
+  color: var(--component-text);
+}
+
+/* 内容区域 */
+.my-modal-body {
+  /* 内边距 */
+  padding: 24px;
+
+  /* 字体样式 */
+  font-size: var(--font-size-base);
+  line-height: 1.5715;
+  color: var(--component-text);
+
+  /* 限制最大高度，防止内容太长，弹窗超出视口
+    超出显示滚动条 */
+  max-height: 60vh;
+  overflow-y: auto;
+
+  /* 滚动条样式 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+/* Webkit 浏览器的滚动条样式（Chrome、Safari） */
+.my-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.my-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.my-modal-body::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: var(--border-radius-md);
+}
+
+.my-modal-body::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-color-secondary);
+}
+
+/* 底部 */
+.my-modal-footer {
+  /* 弹性布局：按钮靠右显示 */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  /* 内边距 */
+  padding: 10px 16px;
+
+  /* 边框顶部 */
+  border-top: 1px solid var(--border-color);
+
+  /* 圆角：只让下面两个角有圆角 */
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+}
+
+/* 底部按钮 - 使用组件级变量 */
+.my-modal-footer button {
+  /* 确保按钮有最小宽度，文字长会自动变宽 */
+  min-width: 70px;
+
+  /* 高度 */
+  height: 32px;
+
+  /* 内边距 */
+  padding: 4px 15px;
+
+  /* 边框 */
+  border: 1px solid var(--component-border);
+  border-radius: var(--border-radius-md);
+
+  /* 背景和字体 - 使用组件级变量 */
+  background-color: var(--component-bg);
+  color: var(--component-text);
+  font-size: var(--font-size-base);
+
+  /* 光标 */
+  cursor: pointer;
+
+  /* 过渡动画 */
+  transition: all 0.2s;
+
+  /* 外边距：每个按钮左边有间距 */
+  margin-left: var(--spacing-sm);
+}
+
+/* 第一个按钮不需要左边距 */
+.my-modal-footer button:first-child {
+  margin-left: 0;
+}
+
+/* 底部按钮悬停 */
+.my-modal-footer button:hover {
+  /* 边框颜色 */
+  border-color: var(--primary-color);
+  /* 文字颜色 */
+  color: var(--primary-color);
+  background-color: var(--component-hover-bg);
+}
+
+/* 底部按钮聚焦 */
+.my-modal-footer button:focus {
+  /* 边框颜色 */
+  border-color: var(--primary-color);
+  /* 外发光效果 */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(15, 15, 15, 0.1);
+}
+
+/* Modal 动画 */
+
+/* 淡入动画 遮罩层用 */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* 缩放进入动画 弹窗内容用 */
+@keyframes modalZoomIn {
+  from {
+    /* 开始状态：透明 + 缩小 */
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  to {
+    /* 结束状态：不透明 + 正常大小 */
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 淡出动画 用于关闭动画 */
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

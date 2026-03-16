@@ -1,0 +1,89 @@
+/* Result 结果组件样式 */
+.my-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* 图标 */
+.my-result-icon {
+  font-size: 72px;
+  line-height: 1;
+  margin-bottom: 24px;
+}
+
+/* 根据状态调整图标颜色 */
+.my-result-403 .my-result-icon {
+  filter: drop-shadow(0 0 8px rgba(255, 77, 79, 0.3));
+}
+
+.my-result-404 .my-result-icon {
+  filter: drop-shadow(0 0 8px rgba(24, 144, 255, 0.3));
+}
+
+.my-result-500 .my-result-icon {
+  filter: drop-shadow(0 0 8px rgba(255, 77, 79, 0.3));
+}
+
+.my-result-success .my-result-icon {
+  filter: drop-shadow(0 0 8px rgba(82, 196, 26, 0.3));
+}
+
+.my-result-error .my-result-icon {
+  filter: drop-shadow(0 0 8px rgba(255, 77, 79, 0.3));
+}
+
+.my-result-warning .my-result-icon {
+  filter: drop-shadow(0 0 8px rgba(250, 173, 20, 0.3));
+}
+
+.my-result-info .my-result-icon {
+  filter: drop-shadow(0 0 8px rgba(24, 144, 255, 0.3));
+}
+
+/* 标题 */
+.my-result-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-color, #37352f);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+/* 副标题 */
+.my-result-subtitle {
+  font-size: 14px;
+  color: var(--text-color-secondary, rgba(55, 53, 47, 0.65));
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* 额外内容（按钮等） */
+.my-result-extra {
+  margin-top: 16px;
+}
+
+/* 子内容 */
+.my-result-content {
+  margin-top: 24px;
+  width: 100%;
+}
+
+/* 响应式调整 */
+@media (max-width: 576px) {
+  .my-result {
+    padding: 32px 16px;
+  }
+
+  .my-result-icon {
+    font-size: 56px;
+  }
+
+  .my-result-title {
+    font-size: 20px;
+  }
+}

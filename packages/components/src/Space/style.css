@@ -1,0 +1,68 @@
+/* Space 容器 - 使用 Flexbox 布局 */
+.my-space {
+  display: inline-flex;
+  /* 使用 gap 属性实现子元素间距（现代 CSS 最佳实践） */
+  gap: var(--space-size, var(--spacing-sm, 8px));
+  /* 默认横向排列 */
+  flex-direction: row;
+  /* 默认垂直居中对齐 */
+  align-items: center;
+  /* 防止换行（除非设置了 wrap） */
+  flex-wrap: nowrap;
+}
+
+/* Space - 纵向排列 */
+.my-space-vertical {
+  flex-direction: column;
+}
+
+/* Space - 自动换行 */
+.my-space-wrap {
+  flex-wrap: wrap;
+}
+
+/* Space - 横向时的对齐方式 */
+.my-space-align-start {
+  align-items: flex-start;
+}
+
+.my-space-align-end {
+  align-items: flex-end;
+}
+
+.my-space-align-center {
+  align-items: center;
+}
+
+.my-space-align-baseline {
+  align-items: baseline;
+}
+
+/* Space - 纵向时的对齐方式 */
+.my-space-vertical.my-space-align-start {
+  align-items: flex-start;
+}
+
+.my-space-vertical.my-space-align-end {
+  align-items: flex-end;
+}
+
+.my-space-vertical.my-space-align-center {
+  align-items: center;
+}
+
+.my-space-vertical.my-space-align-baseline {
+  align-items: baseline;
+}
+
+/* Space Item - 每个子元素包裹器 */
+.my-space-item {
+  /* 防止子元素被压缩 */
+  flex-shrink: 0;
+}
+
+/* Space Split - 分隔符 */
+.my-space-split {
+  /* 使用次要文本颜色 */
+  color: var(--text-color-secondary, rgba(55, 53, 47, 0.65));
+}

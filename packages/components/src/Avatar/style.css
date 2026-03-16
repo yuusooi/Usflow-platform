@@ -1,0 +1,92 @@
+/* Avatar 容器 */
+.my-avatar {
+  /* 使用 inline-flex 支持内部元素居中 */
+  display: inline-flex;
+  /* 居中对齐 */
+  align-items: center;
+  justify-content: center;
+  /* 盒模型 */
+  box-sizing: border-box;
+  /* 内边距 */
+  padding: 0;
+  /* 外边距 */
+  margin: 0;
+  /* 默认背景色（使用主题背景色变量） */
+  background-color: var(--component-bg, #f7f8fa);
+  /* 默认文字颜色 */
+  color: var(--text-color, rgba(0, 0, 0, 0.85));
+  /* 默认字号 */
+  font-size: var(--font-size-base, 14px);
+  /* 行高（用于文字垂直居中） */
+  line-height: 1;
+  /* 禁止用户选择 */
+  user-select: none;
+  /* 字体 */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  /* 边框圆角 */
+  border-radius: 50%;
+  /* 溢出隐藏 */
+  overflow: hidden;
+  /* 平滑过渡 */
+  transition: all 0.2s ease-in-out;
+}
+
+/* Avatar - 圆形 */
+.my-avatar-circle {
+  border-radius: 50%;
+}
+
+/* Avatar - 方形 */
+.my-avatar-square {
+  border-radius: var(--border-radius-radius, 4px);
+}
+
+/* Avatar - 预设尺寸 */
+.my-avatar-small {
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+}
+
+.my-avatar-default {
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+}
+
+.my-avatar-large {
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+}
+
+/* Avatar - 图片 */
+.my-avatar-image {
+  /* 图片填满容器 */
+  width: 100%;
+  height: 100%;
+  /* 对象适配（保持比例裁剪） */
+  object-fit: cover;
+  /* 移除默认样式 */
+  display: block;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Avatar - 文字内容容器 */
+.my-avatar-string {
+  /* 使用 inline-block 才能应用 transform */
+  display: inline-block;
+  /* 防止文字换行 */
+  white-space: nowrap;
+}
+
+/* Avatar - 图标样式 */
+.my-avatar .my-icon {
+  /* 图标尺寸 */
+  font-size: inherit;
+  /* 颜色继承 */
+  color: inherit;
+}

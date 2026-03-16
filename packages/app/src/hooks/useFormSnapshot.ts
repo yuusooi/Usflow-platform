@@ -1,0 +1,162 @@
+import { useEffect, useRef } from 'react';
+import type { FormInstance } from 'antd';
+
+// 定义 useFormSnapshot Hook 的参数类型
+interface UseFormSnapshotOptions {
+  // 表单的唯一标识
+  formId: string;
+  // 是否启用快照功能，默认启用
+  enabled?: boolean;
+  // 恢复快照时的回调函数
+  onRestore?: (values: any) => void;
+}
+
+// useFormSnapshot Hook
+// 用于自动保存表单数据到 sessionStorage，防止刷新丢失
+export const useFormSnapshot = (
+  form: FormInstance | null | undefined,
+  options: UseFormSnapshotOptions,
+) => {
+  // 解构参数，从 options 对象中提取属性，设置默认值
+  const { formId, enabled = true, onRestore } = options;
+
+  // 生成 sessionStorage 的存储键名
+  const STORAGE_KEY = `form_snapshot_${formId}`;
+
+  // 使用 ref 记录上一次的表单数据
+  const prevValuesRef = useRef<any>({});
+
+  // 保存快照的逻辑（防抖处理）
+  useEffect(() => {
+    console.log('[useFormSnapshot] 保存 useEffect 触发, form:', !!form, 'enabled:', enabled);
+
+    // 如果未启用快照功能，直接返回
+    if (!enabled || !form) {
+      console.log('[useFormSnapshot] 跳过保存: form 或 enabled 不满足条件');
+      return;
+    }
+
+    // 定义保存函数
+    const saveSnapshot = () => {
+      // 获取当前表单的所有字段值
+      const currentValues = form.getFieldsValue();
+
+      console.log('[useFormSnapshot] 尝试保存, 当前值:', currentValues);
+      console.log('[useFormSnapshot] 上一次的值:', prevValuesRef.current);
+
+      // 检查表单是否为空或所有字段都是空字符串
+      const isEmpty = Object.values(currentValues).every(
+        value => value === '' || value === null || value === undefined
+      );
+
+      if (isEmpty) {
+        console.log('[useFormSnapshot] 表单为空，跳过保存');
+        return;
+      }
+
+      // 对比当前值和上一次的值，如果没有变化则不保存
+      // 使用 JSON.stringify 深度比较对象
+      if (JSON.stringify(currentValues) === JSON.stringify(prevValuesRef.current)) {
+        console.log('[useFormSnapshot] 数据未变化，跳过保存');
+        return;
+      }
+
+      // 保存到 sessionStorage
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(currentValues));
+
+      // 更新 ref 中的值
+      prevValuesRef.current = currentValues;
+
+      // 打印日志，方便调试
+      console.log('[useFormSnapshot] 快照已保存:', currentValues);
+    };
+
+    // 监听表单字段变化，使用防抖优化性能
+    // 当表单值变化时，延迟 1000ms 后再保存
+    // 这样用户连续输入时，不会每次按键都触发保存
+    const timer = setTimeout(saveSnapshot, 1000);
+
+    // 清理函数：组件卸载或依赖变化时，清除定时器
+    return () => {
+      console.log('[useFormSnapshot] 清除定时器');
+      clearTimeout(timer);
+    };
+  }, [form, enabled]);
+
+  // 恢复快照的逻辑（组件挂载时执行一次）
+  useEffect(() => {
+    // 如果未启用快照功能，直接返回
+    if (!enabled || !form) {
+      return;
+    }
+
+    // 从 sessionStorage 读取旧数据
+    const draft = sessionStorage.getItem(STORAGE_KEY);
+
+    // 如果没有旧数据，直接返回
+    if (!draft) {
+      return;
+    }
+
+    try {
+      // 解析 JSON 字符串，转换成对象
+      const savedValues = JSON.parse(draft);
+
+      // 检查解析后的数据是否是对象
+      if (typeof savedValues !== 'object' || savedValues === null) {
+        console.warn('[useFormSnapshot] 快照数 据格式错误');
+        return;
+      }
+
+      // 检查是否有数据（空对象不做处理）
+      if (Object.keys(savedValues).length === 0) {
+        return;
+      }
+
+      // 打印日志，调试
+      console.log('[useFormSnapshot] 发现旧数据:', savedValues);
+
+      // 如果有 onRestore 回调，通知父组件有旧数据需要恢复
+      // 让父组件决定如何处理（比如显示自定义对话框）
+      if (onRestore) {
+        onRestore(savedValues);
+        return;  // 不直接恢复，交给父组件处理
+      }
+
+      // 如果没有 onRestore，使用默认行为（window.confirm）
+      const shouldRestore = window.confirm(
+        '检测到您有未提交的表单数据，是否恢复？\n\n点击"确定"恢复数据\n点击"取消"删除旧数据',
+      );
+
+      if (shouldRestore) {
+        // 用户点击了"确定"，恢复数据
+        form.setFieldsValue(savedValues);
+
+        // 更新 ref 中的值
+        prevValuesRef.current = savedValues;
+
+        // 打印日志
+        console.log('[useFormSnapshot] 数据已恢复');
+      } else {
+        // 用户点击了"取消"，清除旧数据
+        sessionStorage.removeItem(STORAGE_KEY);
+        console.log('[useFormSnapshot] 用户选择不恢复，旧数据已清除');
+      }
+    } catch (error) {
+      // JSON 解析失败，说明数据损坏
+      console.error('[useFormSnapshot] 快照数据损坏:', error);
+
+      // 清除损坏的数据
+      sessionStorage.removeItem(STORAGE_KEY);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form]);
+
+  // 返回清除快照的方法
+  return {
+    clearSnapshot: () => {
+      sessionStorage.removeItem(STORAGE_KEY);
+      prevValuesRef.current = {};
+    },
+  };
+};

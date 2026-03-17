@@ -24,10 +24,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -103,3 +100,6 @@ textarea::placeholder {
 
 /* 导入 Space 组件样式 */
 @import '../../components/src/Space/index.css';
+
+/* 导入主题样式（必须在最后，覆盖前面的默认样式） */
+@import './styles/theme.css';

@@ -70,32 +70,47 @@ export const routes = [
   // ====== 首页 ======
   {
     path: '/',
-    element: (
-      <Guard meta={{ authCode: 'dashboard:view', title: '首页' }}>
-        {lazyLayout(() => import('@/layouts'))}
-      </Guard>
-    ),
+    element: <Guard>{lazyLayout(() => import('@/layouts'))}</Guard>,
     children: [
       {
         index: true,
-        element: (
-          <Guard meta={{ authCode: 'dashboard:view', title: '控制台' }}>
-            {lazyLoad(() => import('@/pages/Dashboard'))}
-          </Guard>
-        ),
+        element: lazyLoad(() => import('@/pages/Dashboard')),
       },
     ],
   },
 
-  // ====== 系统管理模块 ======
+  // ====== 我的工作台 ======
+  {
+    path: '/workspace',
+    element: <Guard>{lazyLayout(() => import('@/layouts'))}</Guard>,
+    children: [
+      {
+        path: 'leave-application',
+        element: lazyLoad(() => import('@/pages/LeaveApplication')),
+      },
+      {
+        path: 'task-center',
+        element: lazyLoad(() => import('@/pages/TaskCenter')),
+      },
+    ],
+  },
+
+  // ====== 流程引擎 ======
+  {
+    path: '/engine',
+    element: <Guard>{lazyLayout(() => import('@/layouts'))}</Guard>,
+    children: [
+      {
+        path: 'flow-design',
+        element: lazyLoad(() => import('@/pages/FlowDesign')),
+      },
+    ],
+  },
+
+  // ====== 系统管理 ======
   {
     path: '/system',
-    element: (
-      // <Guard meta={{ authCode: 'system:view', title: '系统管理' }}>
-      //   {lazyLayout(() => import('@/layouts/BasicLayout'))}
-      // </Guard>
-      <Guard>{lazyLayout(() => import('@/layouts'))}</Guard>
-    ),
+    element: <Guard>{lazyLayout(() => import('@/layouts'))}</Guard>,
     children: [
       {
         path: 'user',
@@ -122,32 +137,25 @@ export const routes = [
         ),
       },
       {
-        path: 'test-schema-form',
-        element: lazyLoad(() => import('@/pages/TestSchemaForm')),
+        path: 'user-list',
+        element: lazyLoad(() => import('@/pages/UserList')),
       },
       {
-        path: 'test-dependencies',
-        element: lazyLoad(() => import('@/pages/dependenciesTest')),
+        path: 'flow-design',
+        element: lazyLoad(() => import('@/pages/FlowDesign')),
       },
+      // 兼容旧路由（可后续删除）
       {
         path: 'leave-application',
         element: lazyLoad(() => import('@/pages/LeaveApplication')),
       },
       {
-        path: 'test-protable',
-        element: lazyLoad(() => import('@/pages/TestProTable')),
-      },
-      {
-        path: 'user-list',
-        element: lazyLoad(() => import('@/pages/UserList')),
+        path: 'task-center',
+        element: lazyLoad(() => import('@/pages/TaskCenter')),
       },
       {
         path: 'virtual-list-test',
         element: lazyLoad(() => import('@/pages/VirtualListTest')),
-      },
-      {
-        path: 'flow-design',
-        element: lazyLoad(() => import('@/pages/FlowDesign')),
       },
       {
         path: 'error-test',
@@ -157,9 +165,21 @@ export const routes = [
         path: 'service-down-test',
         element: lazyLoad(() => import('@/pages/ServiceDownTest')),
       },
+    ],
+  },
+
+  // ====== 审计与监控 ======
+  {
+    path: '/audit',
+    element: <Guard>{lazyLayout(() => import('@/layouts'))}</Guard>,
+    children: [
       {
-        path: 'task-center',
-        element: lazyLoad(() => import('@/pages/TaskCenter')),
+        path: 'operation-logs',
+        element: lazyLoad(() => import('@/pages/VirtualListTest')),
+      },
+      {
+        path: 'reliability-lab',
+        element: lazyLoad(() => import('@/pages/ReliabilityLab')),
       },
     ],
   },

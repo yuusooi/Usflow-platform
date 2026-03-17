@@ -19,6 +19,11 @@ export function Guard({ children, meta }: GuardProps) {
   const location = useLocation();
   const { isAuthenticated, hasPermission } = useAuthStore();
 
+  // 🔓 开发环境：跳过认证检查，方便开发调试
+  if (import.meta.env.DEV) {
+    return children;
+  }
+
   // 1. 未登录 -> 跳转登录页（记录原地址，登录后返回）
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;

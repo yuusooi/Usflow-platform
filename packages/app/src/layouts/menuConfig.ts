@@ -22,7 +22,7 @@ export interface MenuItem {
  * - 系统管理
  *   - 组织架构 (User + Role + User List)
  * - 审计与监控
- *   - 全局操作日志 (Virtual List Test)
+ *   - 审计日志 (Virtual List Test)
  *   - 高可用实验室 (Error Test + Service Down Test)
  */
 export const menuConfig: MenuItem[] = [
@@ -84,7 +84,7 @@ export const menuConfig: MenuItem[] = [
     children: [
       {
         key: 'operation-logs',
-        label: '全局操作日志',
+        label: '审计日志',
         iconName: 'HistoryOutlined',
         path: '/audit/operation-logs',
       },
@@ -113,8 +113,8 @@ export const pathToMenuKey: Record<string, string> = {
 
   // 系统管理
   '/system/user-list': 'organization',
-  '/system/user': 'organization',
   '/system/role': 'organization',
+  '/system/permission': 'organization',
 
   // 审计与监控
   '/audit/operation-logs': 'operation-logs',

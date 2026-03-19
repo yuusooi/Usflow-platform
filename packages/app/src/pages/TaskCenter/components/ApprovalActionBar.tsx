@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 // 2. 导入 Ant Design 组件
 import { Button, Modal, Form, Select, Input, Space } from 'antd';
 
@@ -84,8 +84,16 @@ function ApprovalActionBar({ onAction, loading = false }: ApprovalActionBarProps
     <div>
       {/* 19. 四个操作按钮 */}
       <Space>
-        {/* 同意按钮：type="primary" 是 Ant Design 的主要按钮样式（蓝色） */}
-        <Button type="primary" onClick={handleApprove} loading={loading}>
+        {/* 同意按钮：使用自定义样式，在黑夜模式下更柔和 */}
+        <Button
+          onClick={handleApprove}
+          loading={loading}
+          style={{
+            backgroundColor: 'var(--color-success, #52c41a)',
+            borderColor: 'var(--color-success, #52c41a)',
+            color: '#fff'
+          }}
+        >
           同意
         </Button>
 

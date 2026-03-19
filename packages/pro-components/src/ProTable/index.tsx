@@ -1,20 +1,12 @@
 import React, { useImperativeHandle, useState } from 'react';
 import { Table } from 'antd';
 import { useAntdTable } from 'ahooks';
-import type { ProTableProps } from './types';
-
-// 定义 ref 暴露的方法类型
-export interface ProTableRef {
-  // 重新加载数据（重置到第一页）
-  reload: () => void;
-  // 刷新当前页（保持当前页码）
-  refresh: () => void;
-}
+import type { ProTableProps, ProTableRef } from './types';
 
 // ProTable 组件
 // 使用 forwardRef 是为了暴露 ref 给父组件使用
 // 行数据类型,请求参数类型
-export const ProTable = React.forwardRef<ProTableRef, ProTableProps<any>>((props, ref) => {
+export const ProTable = React.forwardRef<ProTableRef, ProTableProps<any, any>>((props, ref) => {
   // 从 props 中提取属性
   const {
     request, // 数据请求函数

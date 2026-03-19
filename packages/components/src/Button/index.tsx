@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+export type { ButtonProps } from './types'
 import type { ButtonProps } from './types'
 import './index.css'
 

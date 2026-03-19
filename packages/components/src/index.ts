@@ -25,9 +25,11 @@ export type { GroupProps } from './Input'
 export { default as Button } from './Button'
 export type { ButtonProps } from './Button'
 
-export { Form, SchemaForm } from './Form'
+export { Form } from './Form'
+export { SchemaForm } from './Form/SchemaForm'
 export type { FormProps } from './Form'
 export type { FormItemProps } from './Form'
+export type { SchemaFormProps, FormItemSchema } from './Form/types'
 
 // ====== 数据展示组件 ======
 export { default as Table } from './Table'

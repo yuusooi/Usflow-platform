@@ -3,12 +3,24 @@ import { Tag } from 'antd';
 // 定义任务状态类型
 type TaskStatus = 'pending' | 'approved' | 'rejected' | 'transferred';
 
-// 定义状态到颜色的映射关系
-const statusColorMap: Record<TaskStatus, string> = {
-  pending: 'blue', // 待办显示蓝色
-  approved: 'success', // 已通过显示绿色
-  rejected: 'error', // 已驳回显示红色
-  transferred: 'orange', // 已转办显示橙色
+// 定义状态到样式的映射关系
+const statusStyleMap: Record<TaskStatus, { backgroundColor: string; color: string }> = {
+  pending: {
+    backgroundColor: 'var(--color-info, #1890ff)',
+    color: '#fff',
+  },
+  approved: {
+    backgroundColor: 'var(--color-success, #0f7b6c)',
+    color: '#fff',
+  },
+  rejected: {
+    backgroundColor: 'var(--color-error, #e03e3e)',
+    color: '#fff',
+  },
+  transferred: {
+    backgroundColor: 'var(--color-warning, #d9730d)',
+    color: '#fff',
+  },
 };
 
 // 定义状态到中文的映射关系
@@ -27,12 +39,23 @@ interface StatusTagProps {
 
 // 定义 StatusTag 组件
 function StatusTag({ status }: StatusTagProps) {
-  // 从映射表中获取对应的颜色和文字
-  const color = statusColorMap[status];
+  // 从映射表中获取对应的样式和文字
+  const style = statusStyleMap[status];
   const text = statusTextMap[status];
 
-  // 返回 Tag 组件，传入颜色和文字
-  return <Tag color={color}>{text}</Tag>;
+  // 返回自定义样式的 Tag 组件
+  return (
+    <Tag
+      style={{
+        backgroundColor: style.backgroundColor,
+        color: style.color,
+        border: 'none',
+        fontWeight: 500,
+      }}
+    >
+      {text}
+    </Tag>
+  );
 }
 
 // 导出组件

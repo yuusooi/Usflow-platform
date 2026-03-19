@@ -1,4 +1,5 @@
 import React from 'react'
+export type { ResultProps, ResultStatus } from './types'
 import type { ResultProps } from './types'
 import './style.css'
 

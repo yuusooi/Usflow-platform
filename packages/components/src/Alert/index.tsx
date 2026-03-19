@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react'
+import React, { useState, type MouseEvent } from 'react'
 import type { AlertProps, AlertType } from './types'
 import './style.css'
 

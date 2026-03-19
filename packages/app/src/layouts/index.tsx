@@ -16,6 +16,7 @@ import {
 } from '@ant-design/icons';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { menuConfig, getMenuKeyByPath, menuKeyToPath } from './menuConfig';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const { Header, Sider, Content } = Layout;
 
@@ -62,6 +63,7 @@ const menuItems: MenuProps['items'] = menuConfig.map((item) => {
 export default function MasterLayout() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout, userInfo } = useAuthStore();
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [openKeys, setOpenKeys] = useState<string[]>(['workspace', 'audit']);
@@ -73,14 +75,17 @@ export default function MasterLayout() {
       setSelectedKeys([menuKey]);
 
       // 自动展开父菜单
-      const parentMenu = menuItems.find((item) =>
-        item.children?.some((child) => child.key === menuKey)
+      const parentMenu = menuItems?.find((item) =>
+        item && 'children' in item && item.children?.some((child) => child && child.key === menuKey)
       );
-      if (parentMenu && !openKeys.includes(parentMenu.key)) {
-        setOpenKeys([...openKeys, parentMenu.key]);
+      if (parentMenu && !openKeys.includes(parentMenu.key as string)) {
+        // 使用 setTimeout 避免同步调用 setState
+        setTimeout(() => {
+          setOpenKeys([...openKeys, parentMenu.key as string]);
+        }, 0);
       }
     }
-  }, [location.pathname]);
+  }, [location.pathname, openKeys]);
 
   // 菜单点击处理
   const handleMenuSelect: MenuProps['onSelect'] = ({ key }) => {
@@ -97,15 +102,25 @@ export default function MasterLayout() {
 
   // 用户下拉菜单
   const userMenuItems: MenuProps['items'] = [
-    { key: 'profile', label: '个人中心' },
-    { key: 'settings', label: '设置' },
-    { type: 'divider' },
     { key: 'logout', label: '退出登录', danger: true },
   ];
 
-  const handleUserMenuClick: MenuProps['onClick'] = ({ key }) => {
+  const handleUserMenuClick: MenuProps['onClick'] = async ({ key }) => {
     if (key === 'logout') {
-      // TODO: 实现退出登录逻辑
+      try {
+        await logout();
+      } catch (_error) {
+        // API 失败不影响退出，手动清空本地状态
+        useAuthStore.setState({
+          token: '',
+          userInfo: null,
+          menuTree: [],
+          permissions: [],
+          isAuthenticated: false,
+        });
+      }
+      // 强制跳转到登录页
+      window.location.href = '/login';
     }
   };
 
@@ -171,7 +186,7 @@ export default function MasterLayout() {
               fontWeight: 400,
               controlHeightSM: 36,
             },
-          }}
+          } as any}
         />
       </Sider>
 
@@ -209,9 +224,8 @@ export default function MasterLayout() {
               items={[
                 { title: '首页' },
                 selectedKeys[0] &&
-                  menuItems
-                    .flatMap((item) => item.children || [item])
-                    .find((item) => item.key === selectedKeys[0])?.label,
+                  menuItems?.flatMap((item) => 'children' in item ? item.children || [] : [item])
+                    .find((item) => item && 'label' in item && item.key === selectedKeys[0])?.label,
               ].filter(Boolean)}
             />
           </div>
@@ -231,7 +245,7 @@ export default function MasterLayout() {
                   backgroundColor: 'var(--primary-color, #1890ff)',
                 }}
               >
-                Admin
+                {userInfo?.realName?.charAt(0) || 'A'}
               </Avatar>
             </Dropdown>
           </div>

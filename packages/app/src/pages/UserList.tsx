@@ -1,9 +1,7 @@
-import { ProTable } from '@/components/ProTable';
-import type { ProTableRef } from '@/components/ProTable';
-import type { PageResult } from '@/components/ProTable';
-import { Tag, Button, Space } from '@usflow/components';
-import { message } from 'antd';
-import React, { useRef } from 'react';
+import { ProTable } from '@usflow/pro-components';
+import type { ProTableRef, PageResult } from '@usflow/pro-components';
+import { Tag, Button, Space } from '@usflow/ui';
+import { useRef } from 'react';
 
 // 定义用户数据类型
 interface User {

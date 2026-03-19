@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useImperativeHandle } from 'react';
-import { Form as AntForm, Button } from 'antd';
+import { Form as AntForm } from 'antd';
 import type { FormInstance } from 'antd';
 import { componentMap } from './componentMap';
 import type { SchemaFormProps, FormValues } from './types';
@@ -67,12 +67,12 @@ export const SchemaForm = React.forwardRef<
       layout="vertical" // 垂直布局
       style={{ width: '100%' }}
     >
-      {/* 动态渲染引擎：遍历schemas，生成表单 项 */}
+      {/* 动态渲染引擎：遍历schemas，生成表单项 */}
       {schemas.map((schema, index) => {
-        // 1. 根据schema.type从映射表中拿到对 应的组件
+        // 1. 根据schema.type从映射表中拿到对应的组件
         const Component = componentMap[schema.type];
 
-        // 如果找不到对应的组件，就跳过（容错 处理）
+        // 如果找不到对应的组件，就跳过（容错处理）
         if (!Component) {
           console.warn(`未找到类型为 ${schema.type} 的组件，请检查 componentMap`);
           return null;
@@ -87,14 +87,21 @@ export const SchemaForm = React.forwardRef<
 
         // 3. 处理options（支持下拉框）
         if (schema.options) {
-          const optionsValue = typeof schema.options === 'function'
-            ? schema.options(componentMap)
-            : schema.options;
-          const memoizedOptions = React.useMemo(
-            () => optionsValue,
-            schema.dependencies || [],
-          );
-          componentProps.options = memoizedOptions;
+          if (typeof schema.options === 'function') {
+            // options是函数，使用useMemo缓存计算结果
+            const memoizedOptions = React.useMemo(
+              // 是函数才调用，是数组就直接用
+              () =>
+                typeof schema.options === 'function'
+                  ? schema.options(componentMap)
+                  : schema.options,
+              schema.dependencies || [],
+            );
+            componentProps.options = memoizedOptions;
+          } else {
+            // options是静态数组，直接使用
+            componentProps.options = schema.options;
+          }
         }
 
         // 4. 如果type是password，添加type="password"属性
@@ -104,7 +111,7 @@ export const SchemaForm = React.forwardRef<
 
         // 5. 判断是否有dependencies（字段联动）
         if (schema.dependencies && schema.dependencies.length > 0) {
-          // 有dependencies - 使用Ant Design的Render Props模式
+          // 有dependencies，使用Ant Design的Render Props模式
           return (
             <AntForm.Item
               key={schema.name || index}
@@ -154,10 +161,10 @@ export const SchemaForm = React.forwardRef<
       })}
 
       {/* 提交按钮 */}
-      <AntForm.Item style={{ marginTop: 32, marginBottom: 0 }}>
-        <Button type="primary" size="large" htmlType="submit" style={{ width: 120 }}>
+      <AntForm.Item>
+        <button type="submit" style={{ padding: '8px 24px', cursor: 'pointer' }}>
           {submitText}
-        </Button>
+        </button>
       </AntForm.Item>
     </AntForm>
   );

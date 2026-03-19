@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Button, Input, Card, Space } from '@usflow/components'
+import { Button, Input, Card, Space } from '@usflow/ui'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useAppStore } from '@/store/useAppStore'
 
@@ -105,7 +105,7 @@ function Login() {
                 isAuthenticated: true,
               });
               // 延迟跳转，确保状态已更新并保存到 localStorage
-              setTimeout(() => navigate('/system/user'), 200);
+              setTimeout(() => navigate('/'), 200);
             }}
           >
             模拟管理员登录（所有权限）
@@ -131,7 +131,7 @@ function Login() {
                 ],
                 isAuthenticated: true,
               });
-              setTimeout(() => navigate('/system/user'), 200);
+              setTimeout(() => navigate('/'), 200);
             }}
           >
             模拟编辑员登录（查看+编辑）
@@ -155,7 +155,7 @@ function Login() {
                 ],
                 isAuthenticated: true,
               });
-              setTimeout(() => navigate('/system/user'), 200);
+              setTimeout(() => navigate('/'), 200);
             }}
           >
             模拟查看员登录（仅查看）

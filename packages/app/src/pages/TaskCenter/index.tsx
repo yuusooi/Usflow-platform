@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Tabs } from 'antd'; //创建标签页
-import { ProTable } from '@/components/ProTable';
-import type { PageResult } from '@/components/ProTable';
+import { ProTable } from '@usflow/pro-components';
+import type { PageResult } from '@usflow/pro-components';
 import StatusTag from '@/components/StatusTag';
 import ApprovalDrawer from './components/ApprovalDrawer';
 import type { TaskDetail } from './components/ApprovalDrawer';
@@ -27,7 +27,7 @@ function TaskCenter() {
   // 使用 useCallback 缓存待办任务的请求函数
   // useCallback 的作用是：只有当依赖数组（第二个参数）变化时，才重新创建函数
   const fetchPendingTasks = useCallback(
-    async (params: { current: number; pageSize: number }): Promise<PageResult<Task>> => {
+    async (_params: { current: number; pageSize: number }): Promise<PageResult<Task>> => {
       // 后续替换为真实的 API 调用
       // params.current 是当前页码，params.pageSize 是每页条数
 
@@ -51,7 +51,7 @@ function TaskCenter() {
 
   // 已办任务请求函数
   const fetchProcessedTasks = useCallback(
-    async (params: { current: number; pageSize: number }): Promise<PageResult<Task>> => {
+    async (_params: { current: number; pageSize: number }): Promise<PageResult<Task>> => {
       // 返回模拟的已办数据
       return {
         list: [
@@ -72,7 +72,7 @@ function TaskCenter() {
 
   // 抄送任务请求函数
   const fetchCCTasks = useCallback(
-    async (params: { current: number; pageSize: number }): Promise<PageResult<Task>> => {
+    async (_params: { current: number; pageSize: number }): Promise<PageResult<Task>> => {
       // 返回模拟的抄送数据
       return {
         list: [
@@ -197,9 +197,7 @@ function TaskCenter() {
       <Tabs
         // activeKey：当前激活的 Tab 的 key
         activeKey={activeTab}
-        // onChange：Tab 切换时的回调函数，更新
-        activeTab
-        状态
+        // onChange：Tab 切换时的回调函数，更新 activeTab 状态
         onChange={(key) => setActiveTab(key)}
         // items：定义所有 Tab
         items={[

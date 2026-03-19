@@ -13,7 +13,7 @@ function ServiceDownTest() {
       await request.get('/test-500');
       setResult('请求成功，没有触发 500 错误');
     } catch (error) {
-      setResult(`捕获到错误: ${error.message}`);
+      setResult(`捕获到错误: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setLoading(false);
     }
@@ -27,7 +27,7 @@ function ServiceDownTest() {
       await request.get('/test-normal');
       setResult('请求成功，服务正常');
     } catch (error) {
-      setResult(`捕获到错误: ${error.message}`);
+      setResult(`捕获到错误: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setLoading(false);
     }

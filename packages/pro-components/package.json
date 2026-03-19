@@ -1,7 +1,7 @@
 {
-  "name": "@usflow/ui",
+  "name": "@usflow/pro-components",
   "version": "1.0.0",
-  "description": "Usflow platform UI components library",
+  "description": "Usflow platform professional components - high-order business components",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
@@ -13,7 +13,8 @@
   "keywords": [
     "react",
     "components",
-    "ui",
+    "pro-components",
+    "business",
     "usflow"
   ],
   "author": "",
@@ -24,6 +25,8 @@
     "react-dom": "^19.2.0"
   },
   "dependencies": {
+    "@usflow/ui": "workspace:*",
+    "@usflow/utils": "workspace:*",
     "ahooks": "^3.9.6",
     "antd": "^6.3.1"
   }

@@ -83,7 +83,7 @@ const Row: React.FC<RowProps> = (props) => {
 
   // 渲染
   return (
-    <GutterContext.Provider value={gutterX}>
+    <GutterContext.Provider value={gutterX ?? 0}>
       <div className={finalClassName} style={rowStyle}>
         {children}
       </div>

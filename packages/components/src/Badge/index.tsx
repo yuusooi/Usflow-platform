@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import type { BadgeProps, BadgeColor, BadgeStatus } from './types'
 import './style.css'
 
@@ -95,15 +95,6 @@ const Badge: React.FC<BadgeProps> = ({
     badgeStyle.marginTop = `${offset[1]}px`
   }
 
-  // 状态徽标颜色映射
-  const statusColorMap: Record<BadgeStatus, string> = {
-    success: 'var(--color-success)',
-    processing: 'var(--color-primary)',
-    default: 'var(--color-text-3)',
-    error: 'var(--color-danger)',
-    warning: 'var(--color-warning)',
-  }
-
   // 独立状态徽标渲染
   if (isStatusBadge) {
     // 如果没有自定义颜色，使用状态颜色映射
@@ -136,7 +127,7 @@ const Badge: React.FC<BadgeProps> = ({
         !children ? 'my-badge-count-standalone' : ''
       }`}
       style={badgeStyle}
-      title={title ?? (typeof displayCount === 'number' ? `${displayCount}` : displayCount)}
+      title={(title ?? (typeof displayCount === 'number' ? `${displayCount}` : displayCount)) as string | undefined}
     >
       {dot ? null : displayCount}
     </sup>

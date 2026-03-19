@@ -4,6 +4,8 @@ import type { NodeData } from './index';
 
 // 从 FlowDesign 传递过来的属性
 interface ConfigDrawerProps {
+  // 控制抽屉打开/关闭状态
+  open: boolean;
   // 当前选中的节点数据，没有选中时为 null
   selectedNode: { id: string; data: NodeData } | null;
   // 当前选中的连线数据，没有选中时为 null
@@ -18,6 +20,7 @@ interface ConfigDrawerProps {
 
 // 配置抽屉组件
 function ConfigDrawer({
+  open,
   selectedNode,
   selectedEdge,
   onClose,
@@ -53,9 +56,6 @@ function ConfigDrawer({
       form.resetFields();
     }
   }, [selectedNode, selectedEdge, form]);
-
-  // 判断抽屉是否应该打开：要么选中了节点，要么选中了连线
-  const open = selectedNode !== null || selectedEdge !== null;
 
   // 抽屉标题：根据选中的是节点还是连线，显示不同的标题
   const title = selectedNode ? '配置节点' : '配置连线';

@@ -1,4 +1,4 @@
-import { Button, Result } from '@usflow/components';
+import { Button, Result } from '@usflow/ui';
 
 function NotFound() {
   return (

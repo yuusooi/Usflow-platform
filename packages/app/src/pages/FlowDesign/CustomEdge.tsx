@@ -12,7 +12,7 @@ function CustomEdge({
   targetPosition,
   data,
 }: EdgeProps) {
-  // 计算连线的路径（贝塞尔曲线）
+  // 计算连线的路径，贝塞尔曲线
   const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
@@ -27,7 +27,10 @@ function CustomEdge({
       {/* 连线路径 */}
       <path
         id={id}
-        style={{ stroke: 'black', strokeWidth: 2 }}
+        style={{
+          stroke: 'var(--text-main, #000)',
+          strokeWidth: 2,
+        }}
         className="react-flow__edge-path"
         d={edgePath}
       />
@@ -41,11 +44,12 @@ function CustomEdge({
               transform: `translate(-50%, -50%) translate(${(sourceX + targetX) / 2}px, ${
                 (sourceY + targetY) / 2
               }px)`,
-              background: 'white',
-              border: '1px solid #777',
+              background: 'var(--bg-container, #fff)',
+              border: '1px solid var(--border-strong, #777)',
               borderRadius: '4px',
               padding: '4px 8px',
               fontSize: '12px',
+              color: 'var(--text-main, #000)',
               pointerEvents: 'none',
             }}
           >

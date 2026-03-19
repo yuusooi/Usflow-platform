@@ -68,12 +68,15 @@ export const FormItem: React.FC<FormItemProps> = ({ name, label, required, child
   };
 
   // 克隆子元素，注入 value、onChange 和 onBlur
-  const clonedChildren = React.cloneElement(children, {
-    value: fieldValue, // 注入当前字段的值
-    onChange: handleChange, // 注入变化处理函数
-    onBlur: handleBlur, // 注入 onBlur 事件，用于用户离开输入框时触发校验
-    style: { width: '50%', ...(children.props.style || {}) },
-  } as any); // 用as any绕过类型检查 不知道子组件具体是什么类型
+  const clonedChildren = React.cloneElement(
+    children as React.ReactElement<any>,
+    {
+      value: fieldValue,
+      onChange: handleChange,
+      onBlur: handleBlur,
+      ...(React.isValidElement(children) && (children.props as any).style ? { style: { width: '50%', ...(children.props as any).style } } : {}),
+    }
+  );
 
   // 渲染 label
   const renderLabel = () => {

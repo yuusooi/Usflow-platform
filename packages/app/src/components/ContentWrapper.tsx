@@ -2,7 +2,7 @@
  * 内容包装器组件
  * 用于限制内容最大宽度并居中（大厂极简阅读体验精髓）
  */
-import { Card } from '@usflow/components';
+import { Card } from '@usflow/ui';
 import type { ReactNode } from 'react';
 
 interface ContentWrapperProps {

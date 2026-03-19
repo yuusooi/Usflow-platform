@@ -1,4 +1,4 @@
-import { Card } from '@usflow/components';
+import { Card } from '@usflow/ui';
 
 function Role() {
   return (

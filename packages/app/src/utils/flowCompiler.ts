@@ -1,4 +1,5 @@
 import type { Node, Edge } from 'reactflow';
+import { validateFlow } from './flowValidator';
 
 // 节点数据的类型定义
 interface NodeData {
@@ -44,6 +45,16 @@ export function compileFlowToProcessDefinition(
   nodes: Node<NodeData>[],
   edges: Edge<EdgeData>[],
 ): ProcessDefinition {
+  // 第零步：验证流程合法性
+  const validation = validateFlow(nodes, edges);
+  if (!validation.valid) {
+    const errorMessages = validation.errors
+      .filter(e => e.type === 'error')
+      .map(e => e.message)
+      .join('\n');
+    throw new Error(`流程验证失败：\n${errorMessages}`);
+  }
+
   // 第一步：找出开始节点
   const startNode = nodes.find((node) => node.data.type === 'start');
 

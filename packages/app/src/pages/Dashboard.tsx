@@ -1,4 +1,4 @@
-import { Card, Row, Col } from '@usflow/components';
+import { Card, Row, Col } from '@usflow/ui';
 
 function Dashboard() {
   return (

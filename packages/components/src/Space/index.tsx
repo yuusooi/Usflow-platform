@@ -94,7 +94,7 @@ const Space: React.FC<SpaceProps> = ({
 
   // 将 children 转换为数组，过滤掉 null、undefined、false
   const nodes = React.Children.toArray(children).filter(
-    (node) => node !== null && node !== undefined && node !== false
+    (node) => !!node
   )
 
   // 渲染子元素和分隔符
@@ -126,7 +126,7 @@ const Space: React.FC<SpaceProps> = ({
         // CSS 变量传递间距大小
         '--space-size': gapSize,
         ...style,
-      }}
+      } as React.CSSProperties & Record<string, any>}
     >
       {renderItems()}
     </div>

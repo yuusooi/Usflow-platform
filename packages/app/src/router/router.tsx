@@ -113,14 +113,6 @@ export const routes = [
     element: <Guard>{lazyLayout(() => import('@/layouts'))}</Guard>,
     children: [
       {
-        path: 'user',
-        element: (
-          <Guard meta={{ authCode: 'system:user:view', title: '用户管理' }}>
-            {lazyLoad(() => import('@/pages/System/User'))}
-          </Guard>
-        ),
-      },
-      {
         path: 'role',
         element: (
           <Guard meta={{ authCode: 'system:role:view', title: '角色管理' }}>

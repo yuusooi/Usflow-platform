@@ -5,16 +5,13 @@ import { request } from '@usflow/utils';
 
 const { Title, Paragraph, Text } = Typography;
 
-/**
- * 高可用实验室 - 系统稳定性测试中心
- *
- * 此页面整合了错误捕获测试和服务降级测试功能，
- * 用于演示和验证系统的高可用性和容错能力。
- */
 function ReliabilityLab() {
   const [shouldCrash, setShouldCrash] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [testResult, setTestResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [testResult, setTestResult] = useState<{
+    type: 'success' | 'error';
+    message: string;
+  } | null>(null);
 
   // 触发渲染错误（会被 ErrorBoundary 捕获）
   const triggerRenderError = () => {
@@ -44,7 +41,10 @@ function ReliabilityLab() {
       await request.get('/test-500');
       setTestResult({ type: 'error', message: '请求成功，未能触发 500 错误' });
     } catch (error) {
-      setTestResult({ type: 'success', message: `已触发 500 错误，错误已被捕获: ${error.message}` });
+      setTestResult({
+        type: 'success',
+        message: `已触发 500 错误，错误已被捕获: ${error instanceof Error ? error.message : String(error)}`,
+      });
     } finally {
       setLoading(false);
     }
@@ -59,7 +59,10 @@ function ReliabilityLab() {
       await request.get('/test-normal');
       setTestResult({ type: 'success', message: '请求成功，服务正常响应' });
     } catch (error) {
-      setTestResult({ type: 'error', message: `请求失败: ${error.message}` });
+      setTestResult({
+        type: 'error',
+        message: `请求失败: ${error instanceof Error ? error.message : String(error)}`,
+      });
     } finally {
       setLoading(false);
     }
@@ -107,7 +110,9 @@ function ReliabilityLab() {
       >
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
           <div>
-            <Paragraph style={{ marginBottom: 12 }}>模拟前端运行时错误，验证错误边界和全局监控的捕获能力：</Paragraph>
+            <Paragraph style={{ marginBottom: 12 }}>
+              模拟前端运行时错误，验证错误边界和全局监控的捕获能力：
+            </Paragraph>
             <Space wrap>
               <Button type="primary" danger onClick={triggerRenderError}>
                 触发渲染错误
@@ -128,7 +133,8 @@ function ReliabilityLab() {
                   <Text strong>异步错误：</Text> 会被全局监控捕获，控制台打印错误信息
                 </li>
                 <li>
-                  <Text strong>Promise Rejection：</Text> 会被全局监控捕获，防止未处理的 Promise 错误
+                  <Text strong>Promise Rejection：</Text> 会被全局监控捕获，防止未处理的 Promise
+                  错误
                 </li>
               </ul>
             }
@@ -149,7 +155,9 @@ function ReliabilityLab() {
       >
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
           <div>
-            <Paragraph style={{ marginBottom: 12 }}>模拟后端服务异常，验证请求拦截器和错误处理机制：</Paragraph>
+            <Paragraph style={{ marginBottom: 12 }}>
+              模拟后端服务异常，验证请求拦截器和错误处理机制：
+            </Paragraph>
             <Space wrap>
               <Button type="primary" danger onClick={trigger500Error} loading={loading}>
                 触发 500 错误
@@ -181,7 +189,8 @@ function ReliabilityLab() {
       {/* 使用说明 */}
       <Card style={{ marginTop: 16, background: 'var(--bg-hover)' }}>
         <Paragraph style={{ marginBottom: 0 }}>
-          <Text strong>💡 提示：</Text> 此页面主要用于开发和测试环境验证系统的容错能力。在生产环境中，建议通过配置开关来控制此页面的访问权限。
+          <Text strong>提示：</Text>{' '}
+          此页面主要用于开发和测试环境验证系统的容错能力。在生产环境中，建议通过配置开关来控制此页面的访问权限。
         </Paragraph>
       </Card>
     </div>

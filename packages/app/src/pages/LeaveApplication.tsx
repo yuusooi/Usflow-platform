@@ -1,33 +1,47 @@
-import { useState, useEffect } from 'react';
-import {
-  Card,
-  Row,
-  Col,
-  Input,
-  Button,
-  Form,
-  Select,
-  Timeline,
-  Typography,
-  Alert,
-  Space,
-  Modal,
-} from 'antd';
+import { useState, useEffect, useRef } from 'react';
+import { Card, Row, Col, Input, Button, Timeline, Typography, Alert, Space, Modal } from 'antd';
+import { message } from 'antd';
 import { RobotOutlined, UserOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { extractLeaveInfo } from '../services/aiService';
 import { useFormSnapshot } from '../hooks/useFormSnapshot';
-import { message } from 'antd';
+import { SchemaForm } from '@usflow/ui';
+import type { FormItemSchema } from '@usflow/ui';
 
-const { TextArea } = Input;
 const { Title, Text } = Typography;
 
-// 审批日志的数据结构
-interface ApprovalLog {
-  operator: string;
-  action: string;
-  time: string;
-  comment?: string;
-}
+// 表单配置 Schema - 使用 dependencies 实现字段联动
+const formSchemas: FormItemSchema[] = [
+  {
+    name: 'leaveType',
+    label: '请假类型',
+    type: 'select',
+    options: [
+      { label: '病假', value: '病假' },
+      { label: '事假', value: '事假' },
+      { label: '年假', value: '年假' },
+    ],
+    rules: [{ required: true, message: '请选择请假类型' }],
+  },
+  {
+    name: 'days',
+    label: '请假天数',
+    type: 'input',
+    placeholder: '请输入请假天数 (如: 1, 0.5)',
+    props: { type: 'number' },
+    rules: [{ required: true, message: '请输入请假天数' }],
+  },
+  {
+    name: 'reason',
+    label: '请假原因',
+    type: 'textarea',
+    placeholder: '请输入详细的请假原因',
+    props: { rows: 4 },
+    rules: [{ required: true, message: '请输入请假原因' }],
+    // 核心功能：使用 dependencies 实现字段联动
+    dependencies: ['leaveType'], // 声明依赖 leaveType 字段
+    hidden: (values) => values.leaveType === '年假', // 年假时隐藏此字段
+  },
+];
 
 /**
  * 请假申请页面 - 左右布局重构版
@@ -37,41 +51,21 @@ interface ApprovalLog {
  * - 右侧 30%：审批流程预览 + 温馨提示
  */
 function LeaveApplication() {
-  // 创建模拟的审批日志数据
-  const mockLogs: ApprovalLog[] = [
-    {
-      operator: '张三',
-      action: '发起',
-      time: '2026-01-15 09:00:00',
-      comment: '申请事假，原因：家里有事',
-    },
-    {
-      operator: '李四（部门经理）',
-      action: '同意',
-      time: '2026-01-15 10:30:00',
-      comment: '同意请假，工作已交接',
-    },
-    {
-      operator: '王五（人事）',
-      action: '同意',
-      time: '2026-01-15 14:00:00',
-    },
-  ];
-
   // 状态管理
   const [aiInput, setAiInput] = useState('');
-  const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [form] = Form.useForm();
+
+  // SchemaForm ref - 用于访问内部的 form 实例
+  const schemaFormRef = useRef<{ form?: { validateFields: () => void; setFieldsValue: (values: Record<string, unknown>) => void } } | null>(null);
 
   // 表单快照恢复相关状态
   const [showRestoreDialog, setShowRestoreDialog] = useState(false);
-  const [savedValues, setSavedValues] = useState<any>(null);
-  const [formValues, setFormValues] = useState<any>({});
+  const [savedValues, setSavedValues] = useState<Record<string, unknown> | null>(null);
+  const [formValues, setFormValues] = useState<Record<string, unknown>>({});
 
-  // 使用表单快照 Hook
-  const { clearSnapshot } = useFormSnapshot(form, {
+  // 使用表单快照 Hook - 获取 SchemaForm 内部的 form 实例
+  const { clearSnapshot } = useFormSnapshot(schemaFormRef.current?.form || null, {
     formId: 'leave-application',
     enabled: true,
     onRestore: (values) => {
@@ -129,15 +123,19 @@ function LeaveApplication() {
         newFormData.reason = result.reason;
       }
 
-      // 填充表单
-      form.setFieldsValue(newFormData);
-      setFormData(newFormData);
-      setFormValues(newFormData);
+      // 填充表单 - 使用 SchemaForm ref 访问内部 form 实例
+      const formInstance = schemaFormRef.current?.form;
+      if (formInstance) {
+        formInstance.setFieldsValue(newFormData);
+        setFormValues(newFormData);
+      }
 
       // 触发校验
       setTimeout(async () => {
         try {
-          await form.validateFields();
+          if (schemaFormRef.current?.validateFields) {
+            await schemaFormRef.current.validateFields();
+          }
         } catch (err) {
           console.log('表单校验未通过，需要用户补全信息');
         }
@@ -154,7 +152,7 @@ function LeaveApplication() {
   };
 
   // 表单提交处理
-  const handleSubmit = (values: any) => {
+  const handleSubmit = (values: Record<string, unknown>) => {
     console.log('表单提交的数据:', values);
     clearSnapshot();
     message.success('请假申请提交成功！');
@@ -163,9 +161,12 @@ function LeaveApplication() {
   // 确认恢复数据
   const handleRestoreConfirm = () => {
     if (savedValues) {
-      form.setFieldsValue(savedValues);
-      setFormValues(savedValues);
-      message.success('表单数据已恢复');
+      const formInstance = schemaFormRef.current?.form;
+      if (formInstance) {
+        formInstance.setFieldsValue(savedValues);
+        setFormValues(savedValues);
+        message.success('表单数据已恢复');
+      }
     }
     setShowRestoreDialog(false);
   };
@@ -240,50 +241,15 @@ function LeaveApplication() {
                 bordered={false}
                 style={{ borderRadius: 8, background: 'var(--bg-container, #ffffff)' }}
               >
-                <Form
-                  form={form}
-                  layout="vertical"
-                  size="large"
-                  onFinish={handleSubmit}
+                <SchemaForm
+                  ref={schemaFormRef}
+                  schemas={formSchemas}
+                  onSubmit={handleSubmit}
+                  submitText="提交申请"
                   onValuesChange={(values) => {
-                    console.log('[Form] 字段值变化:', values);
-                    setFormValues({ ...formValues, ...values });
+                    setFormValues(values);
                   }}
-                >
-                  <Form.Item
-                    label="请假类型"
-                    name="leaveType"
-                    rules={[{ required: true, message: '请选择请假类型' }]}
-                  >
-                    <Select placeholder="请选择请假类型">
-                      <Select.Option value="病假">病假</Select.Option>
-                      <Select.Option value="事假">事假</Select.Option>
-                      <Select.Option value="年假">年假</Select.Option>
-                    </Select>
-                  </Form.Item>
-
-                  <Form.Item
-                    label="请假天数"
-                    name="days"
-                    rules={[{ required: true, message: '请输入请假天数' }]}
-                  >
-                    <Input placeholder="请输入请假天数 (如: 1, 0.5)" type="number" />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="请假原因"
-                    name="reason"
-                    rules={[{ required: true, message: '请输入请假原因' }]}
-                  >
-                    <TextArea rows={4} placeholder="请输入详细的请假原因" />
-                  </Form.Item>
-
-                  <Form.Item style={{ marginTop: 32, marginBottom: 0 }}>
-                    <Button type="primary" size="large" htmlType="submit" style={{ width: 120 }}>
-                      提交申请
-                    </Button>
-                  </Form.Item>
-                </Form>
+                />
               </Card>
             </Space>
           </Col>
@@ -391,14 +357,16 @@ function LeaveApplication() {
             <div style={{ marginBottom: 4, color: 'var(--text-secondary, #666)' }}>
               将恢复以下数据：
             </div>
-            {Object.entries(savedValues).map(
-              ([key, value]) =>
-                value && (
-                  <div key={key} style={{ color: 'var(--text-main, #1a1a1a)' }}>
-                    {key}: {value}
-                  </div>
-                ),
-            )}
+            {
+              Object.entries(savedValues).map(
+                ([key, value]) =>
+                  value && (
+                    <div key={key} style={{ color: 'var(--text-main, #1a1a1a)' }}>
+                      {key}: {String(value)}
+                    </div>
+                  ),
+              ) as React.ReactNode
+            }
           </div>
         )}
       </Modal>

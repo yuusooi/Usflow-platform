@@ -5,7 +5,7 @@ import { useTheme } from '@/hooks/useTheme';
  * 类似 iOS 风格的滑动按钮
  */
 export function ThemeToggle() {
-  const { mode, toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
 
   return (
     <button

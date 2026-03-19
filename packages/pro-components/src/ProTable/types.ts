@@ -1,4 +1,4 @@
-import { TableProps } from 'antd';
+import type { TableProps } from 'antd';
 
 // 定义统一的接口返回结构
 // 这是一个泛型接口，T 是列表项的类型
@@ -30,4 +30,12 @@ export interface ProTableProps<RecordType extends Record<string, any>, Params = 
   // false: 组件挂载时自动请求数据（默认）
   // true: 需要手动调用 ref 的 fetch 方法请求数据
   manualRequest?: boolean;
+}
+
+// ProTable 组件 ref 暴露的方法类型
+export interface ProTableRef {
+  // 重新加载数据（重置到第一页）
+  reload: () => void;
+  // 刷新当前页（保持当前页码）
+  refresh: () => void;
 }

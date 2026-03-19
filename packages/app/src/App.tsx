@@ -24,9 +24,6 @@ function App() {
         // 根据 mode 选择 Antd 算法
         algorithm: mode === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
 
-        // 开启 CSS 变量广播，让Antd的颜色变量可以被读取
-        cssVar: true,
-
         token: {
           // 圆角与字体，双主题通用
           borderRadius: 4, // 对应组件库的 --border-radius-md
@@ -89,9 +86,6 @@ function App() {
           Select: {
             colorBgContainer: mode === 'dark' ? '#2f2f2f' : '#ffffff',
             colorBorder: mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(55, 53, 47, 0.4)',
-          },
-          Form: {
-            itemLabelColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.85)' : '#37352f',
           },
         },
       }}

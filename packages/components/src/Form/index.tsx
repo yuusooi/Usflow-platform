@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { FormContext } from './types'
+export type { FormProps, FormItemProps } from './types'
 import type { FormProps, FormValues, FormErrors } from './types'
 
 // 导出 Form 组件 外部才能使用它
@@ -148,5 +149,3 @@ export const Form: React.FC<FormProps> = ({
     </FormContext.Provider>
   )
 }
-
-export { SchemaForm } from './SchemaForm'

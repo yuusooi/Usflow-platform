@@ -1,11 +1,9 @@
-import React from 'react';
 import { Drawer } from 'antd';
-import { SchemaForm } from '@usflow/components';
-import type { FormItemSchema } from '@usflow/components';
+import type { FormItemSchema } from '@usflow/pro-components';
 import ApprovalActionBar from './ApprovalActionBar';
 
 // 定义任务详情的类型
-interface TaskDetail {
+export interface TaskDetail {
   id: string;
   taskNo: string;
   initiator: string;
@@ -111,12 +109,20 @@ function ReadOnlySchemaForm({ schema, values }: ReadOnlySchemaFormProps) {
             {field.label}
           </label>
           {/* 字段值 */}
-          <div style={{ padding: '8px 12px', background: '#f5f5f5', borderRadius: '4px' }}>
+          <div
+            style={{
+              padding: '8px 12px',
+              background: 'var(--bg-layout, #f5f5f5)',
+              borderRadius: '4px',
+              color: 'var(--text-main, rgba(0, 0, 0, 0.88))',
+              border: '1px solid var(--border-line, #d9d9d9)'
+            }}
+          >
             {/* 根据字段类型渲染不同的显示方式 */}
-            {field.type === 'select' ? (
+            {field.type === 'select' && field.props && 'options' in field.props && Array.isArray(field.props.options) ? (
               // 如果是下拉框，显示选中的文字
               <span>
-                {field.props?.options?.find((opt: any) => opt.value === values[field.name])
+                {field.props.options.find((opt: any) => opt.value === values[field.name])
                   ?.label || values[field.name]}
               </span>
             ) : (

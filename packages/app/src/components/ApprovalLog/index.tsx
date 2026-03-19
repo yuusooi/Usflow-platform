@@ -1,4 +1,3 @@
-import React from 'react';
 import { useVirtualList } from '@/hooks/useVirtualList';
 
 // 审批日志的数据结构
@@ -28,8 +27,8 @@ function ApprovalLog() {
   return (
     <div
       style={{
-        width: '600px',
-        height: '400px', // 和配置中的 containerHeight 一致
+        width: '800px',
+        height: '500px', // 和配置中的 containerHeight 一致
         border: '1px solid #ccc',
         overflow: 'auto',
         margin: '20px auto',

@@ -73,6 +73,57 @@ pnpm --filter @usflow/app run dev
 
 ---
 
+## 环境变量配置
+
+本项目使用 Vercel Serverless Function 来隐藏 API Key，确保敏感信息不会暴露到前端代码。
+
+### 本地开发
+
+1. 复制环境变量模板（如需要）：
+```bash
+cp packages/app/.env.example packages/app/.env
+```
+
+2. 在 `packages/app/.env` 中配置：
+```bash
+# DeepSeek API Key（用于 AI 智能填单）
+DEEPSEEK_API_KEY=your_api_key_here
+```
+
+3. 启动开发服务器：
+```bash
+pnpm --filter @usflow/app run dev
+```
+
+开发环境会自动启动 API 代理服务器（端口 3001），将 `/api/*` 请求转发到 Vercel 生产环境。
+
+### Vercel 部署
+
+在 Vercel 项目设置中添加环境变量：
+
+1. 进入 Vercel 项目 Dashboard
+2. 导航到 **Settings → Environment Variables**
+3. 添加以下变量：
+   - **Key**: `DEEPSEEK_API_KEY`
+   - **Value**: 你的 DeepSeek API Key
+   - **Environment**: 选择 `Production`, `Preview`, `Development`
+
+### Serverless Function 架构
+
+```
+前端代码 (React)
+    ↓ POST /api/extract-leave-info
+Vercel Serverless Function
+    ↓ 读取 process.env.DEEPSEEK_API_KEY
+DeepSeek API
+```
+
+- **API 路径**: `packages/app/api/extract-leave-info.ts`
+- **安全优势**: API Key 仅存在于服务端环境，前端无法访问
+- **开发代理**: `packages/app/dev-server.js` 提供本地开发环境支持
+
+---
+
 ## 待完善功能 (Roadmap)
 
 本项目侧重于前端基础架构的搭建，部分涉及复杂业务链路的功能仍处于预留或开发阶段：

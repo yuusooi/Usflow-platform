@@ -5,7 +5,7 @@ import type { FormInstance } from 'antd';
 import { componentMap } from './componentMap';
 import type { SchemaFormProps, FormValues } from './types';
 
-// SchemaForm组件 - 基于Ant Design Form的配置 驱动表单
+// 基于antd Form的配置 驱动表单
 export const SchemaForm = React.forwardRef<
   {
     validateFields: () => Promise<void>;
@@ -17,20 +17,20 @@ export const SchemaForm = React.forwardRef<
 
   const [form] = AntForm.useForm();
 
-  // 暴露 form 实例的方法给父组件
+  // 暴露form实例的方法给父组件
   useImperativeHandle(ref, () => ({
     validateFields: () => form.validateFields(),
     form: form,
   }));
 
-  // 当 values 变化时，更新表单
+  // 当values变化时，更新表单
   React.useEffect(() => {
     if (values) {
       form.setFieldsValue(values);
     }
   }, [values, form]);
 
-  // 从schemas中提取初始值，构建initialValues 对象
+  // 从schemas中提取初始值，构建initialValues对象
   const initialValues: FormValues = React.useMemo(() => {
     const values: FormValues = {};
 
@@ -57,7 +57,7 @@ export const SchemaForm = React.forwardRef<
     <AntForm
       form={form}
       initialValues={initialValues}
-      onFinish={handleSubmit} // Ant Design的onFinish
+      onFinish={handleSubmit} // antd的onFinish
       onValuesChange={(_changedValues, allValues) => {
         // 字段值变化时，调用父组件传入的回调
         if (onValuesChange) {
@@ -67,9 +67,9 @@ export const SchemaForm = React.forwardRef<
       layout="vertical" // 垂直布局
       style={{ width: '100%' }}
     >
-      {/* 动态渲染引擎：遍历schemas，生成表单项 */}
+      {/* 遍历schemas，生成表单项 */}
       {schemas.map((schema, index) => {
-        // 1. 根据schema.type从映射表中拿到对应的组件
+        // 根据schema.type从映射表中拿到对应的组件
         const Component = componentMap[schema.type];
 
         // 如果找不到对应的组件，就跳过（容错处理）
@@ -78,14 +78,14 @@ export const SchemaForm = React.forwardRef<
           return null;
         }
 
-        // 2. 准备传给组件的props
+        // 准备传给组件的props
         const componentProps: Record<string, any> = {
           ...schema.props, // 先展开schema自定义的props（如disabled、maxLength）
           placeholder: schema.placeholder || `请输入${schema.label || schema.name}`, // 占位符
           style: { width: '100%', ...(schema.props?.style || {}) },
         };
 
-        // 3. 处理options（支持下拉框）
+        // 处理options（支持下拉框）
         if (schema.options) {
           if (typeof schema.options === 'function') {
             // options是函数，使用useMemo缓存计算结果
@@ -104,14 +104,14 @@ export const SchemaForm = React.forwardRef<
           }
         }
 
-        // 4. 如果type是password，添加type="password"属性
+        // 根据type添加type="password"属性
         if (schema.type === 'password') {
           componentProps.type = 'password';
         }
 
-        // 5. 判断是否有dependencies（字段联动）
+        // 字段联动，判断是否有dependencies
         if (schema.dependencies && schema.dependencies.length > 0) {
-          // 有dependencies，使用Ant Design的Render Props模式
+          // 有dependencies，使用antd的Render Props模式
           return (
             <AntForm.Item
               key={schema.name || index}
@@ -120,14 +120,14 @@ export const SchemaForm = React.forwardRef<
               dependencies={schema.dependencies}
             >
               {({ getFieldValue }) => {
-                // Render Props函数：接收form 的API
-                // 5.1 获取依赖字段的值
+                // Render Props函数：接收form的API
+                // 获取依赖字段的值
                 const dependentValues: Record<string, any> = {};
                 schema.dependencies?.forEach((dep) => {
                   dependentValues[dep] = getFieldValue(dep);
                 });
 
-                // 5.2 如果有hidden函数，判断 是否隐藏
+                // 如果有hidden函数，判断 是否隐藏
                 if (schema.hidden) {
                   const shouldHide = schema.hidden(dependentValues);
 
@@ -136,7 +136,7 @@ export const SchemaForm = React.forwardRef<
                   }
                 }
 
-                // 5.3 渲染表单项
+                // 渲染表单项
                 return (
                   <AntForm.Item name={schema.name} label={schema.label} rules={schema.rules as any}>
                     <Component {...componentProps} />
@@ -147,7 +147,7 @@ export const SchemaForm = React.forwardRef<
           );
         }
 
-        // 6. 没有dependencies - 正常渲染
+        // 没有dependencies，正常渲染
         return (
           <AntForm.Item
             key={schema.name || index}

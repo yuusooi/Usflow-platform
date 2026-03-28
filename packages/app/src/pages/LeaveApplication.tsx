@@ -57,7 +57,12 @@ function LeaveApplication() {
   const [error, setError] = useState('');
 
   // SchemaForm ref - 用于访问内部的 form 实例
-  const schemaFormRef = useRef<{ form?: { validateFields: () => void; setFieldsValue: (values: Record<string, unknown>) => void } } | null>(null);
+  const schemaFormRef = useRef<{
+    form?: {
+      validateFields: () => void;
+      setFieldsValue: (values: Record<string, unknown>) => void;
+    };
+  } | null>(null);
 
   // 表单快照恢复相关状态
   const [showRestoreDialog, setShowRestoreDialog] = useState(false);
@@ -254,10 +259,10 @@ function LeaveApplication() {
             </Space>
           </Col>
 
-          {/* 右侧辅助信息区 (33%) */}
+          {/* 右侧辅助信息区 */}
           <Col xs={24} lg={8}>
             <Space direction="vertical" size="large" style={{ width: '100%' }}>
-              {/* 1. 审批流程预览 */}
+              {/* 审批流程预览 */}
               <Card
                 title="审批流程预览"
                 bordered={false}
@@ -305,7 +310,7 @@ function LeaveApplication() {
                 />
               </Card>
 
-              {/* 2. 温馨提示/规则说明 */}
+              {/* 规则说明 */}
               <Alert
                 message="请假制度说明"
                 description={

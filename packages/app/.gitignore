@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Environment variables (包含敏感信息，不应提交)
+.env
+.env*.local
+
+# Build analysis
+stats.html
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

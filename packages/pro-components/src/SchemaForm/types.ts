@@ -5,10 +5,10 @@ import React from 'react';
 // key 是字段名，value 是错误信息字符串
 export type FormErrors = Record<string, string>;
 
-// 1. 定义表单值的类型：key 是表单项的名字，value 是对应的值
+// 定义表单值的类型，key 是表单项的名字，value 是对应的值
 export type FormValues = Record<string, any>;
 
-// 2. 定义 Form 组件接收的 props
+// 定义 Form 组件接收的 props
 export interface FormProps {
   // 初始表单数据
   initialValues?: FormValues;
@@ -18,7 +18,7 @@ export interface FormProps {
   children: React.ReactNode;
 }
 
-// 3. 定义 FormContext 要传递的数据结构
+// 定义 FormContext 要传递的数据结构
 export interface FormContextType {
   // 当前表单的所有数据
   values: FormValues;
@@ -38,7 +38,7 @@ export interface FormContextType {
   registerRequired: (name: string, required: boolean) => void;
 }
 
-// 4. 创建 FormContext（先给一个默认值，后续会被 Form 组件覆盖）
+// 创建 FormContext（先给一个默认值，后续会被 Form 组件覆盖）
 export const FormContext = React.createContext<FormContextType>({
   values: {},
   setFieldValue: () => {}, // 空函数作为默认实现
@@ -52,13 +52,13 @@ export const FormContext = React.createContext<FormContextType>({
 
 // 定义 FormItem 组件接收的 props
 export interface FormItemProps {
-  // 表单项的字段名（必填），用来从 Form 的 values 中取值
+  // 表单项的字段名，用来从Form的values中取值
   name: string;
-  // 显示的标签文字（可选），比如 "用户名"、"密码"
+  // 显示的标签文字，比如 "用户名"、"密码"
   label?: string;
-  // 是否必填（可选），后面会用来做校验
+  // 是否必填，后面会用来做校验
   required?: boolean;
-  // FormItem 的子元素（必填），通常是一个表单控件如 <Input />
+  // FormItem 的子元素，通常是一个表单控件如 <Input />
   children: React.ReactElement;
 }
 
@@ -97,7 +97,7 @@ export interface FormItemSchema {
 }
 
 //  SchemaForm 组件的 props 类型定义
-//  这是用户使用 <SchemaForm /> 时需要传入的参数
+//  用户使用 <SchemaForm /> 时需要传入的参数
 export interface SchemaFormProps {
   // Schema 配置数组
   // 每个元素代表一个表单项的配置（JSON）
